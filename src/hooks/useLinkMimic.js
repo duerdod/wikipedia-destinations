@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-function useLinkMimic({ ref = null, className = '', loading = true }) {
+function useLinkMimic({
+  ref = null,
+  className = '',
+  loading = true,
+  fn = null
+}) {
   let history = useHistory();
   const { article } = useParams();
 
@@ -24,10 +29,11 @@ function useLinkMimic({ ref = null, className = '', loading = true }) {
               lastArticleTitle: displaytitle.innerText
             }
           });
+          return fn ? fn() : null;
         })
       );
     }
-  }, [className, history, ref, article, loading]);
+  }, [className, history, ref, article, loading, fn]);
 }
 
 export default useLinkMimic;

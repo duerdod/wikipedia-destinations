@@ -6,7 +6,7 @@ function useWikiFetch(title) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const finalUrl = `https://en.wikipedia.org/w/api.php?action=parse&origin=*&format=json&page=${title}&prop=text|displaytitle&redirects=true`;
+  const finalUrl = `https://en.wikipedia.org/w/api.php?action=parse&origin=*&format=json&page=${title}&disabletoc=true&disableeditsection=true&disablestylededuplication=true&prop=text|displaytitle`;
 
   useEffect(() => {
     async function fetchData(url) {
@@ -23,8 +23,9 @@ function useWikiFetch(title) {
   }, [finalUrl, title]);
 
   const rawData = data && data.parse;
+  console.log(rawData);
   const pages = sanitizeResponse(loading ? {} : rawData);
-  const [displaytitle, , , rawContent] = pages;
+  const [displaytitle, , rawContent] = pages;
   const content = sanitizeHtml(loading ? null : rawContent['*']);
 
   return { loading, pages, content, displaytitle };

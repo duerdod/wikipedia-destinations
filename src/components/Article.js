@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
+import { StatsContext } from './StatsProvider';
 
 const Container = styled.div`
   padding: 0 1rem;
@@ -35,7 +36,6 @@ const StyledArticle = styled.div`
   ul,
   ol {
     list-style-type: disc;
-    margin-left: 2rem;
   }
 `;
 
@@ -59,10 +59,16 @@ const LoadingComponenet = () => (
 
 const Article = () => {
   const { article } = useParams();
+  const { incrementSteps } = useContext(StatsContext);
   const { loading, content, displaytitle } = useWikiFetch(article);
   const articleRef = useRef();
 
-  useLinkMimic({ ref: articleRef, className: 'fetched-article', loading });
+  useLinkMimic({
+    ref: articleRef,
+    className: 'fetched-article',
+    loading,
+    fn: incrementSteps
+  });
 
   return (
     <Container ref={articleRef}>

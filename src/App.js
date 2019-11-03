@@ -3,7 +3,9 @@ import './index.css';
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
+import { StatsProvider } from './components/StatsProvider';
 import Article from './components/Article';
+import Stats from './components/Stats';
 
 const Container = styled.section`
   background: inherit;
@@ -12,11 +14,14 @@ const Container = styled.section`
 
 function App() {
   return (
-    <Router>
-      <Container>
-        <Route path={'/wiki/:article'} component={Article} />
-      </Container>
-    </Router>
+    <StatsProvider>
+      <Router>
+        <Container>
+          <Stats></Stats>
+          <Route path={'/wiki/:article'} component={Article} />
+        </Container>
+      </Router>
+    </StatsProvider>
   );
 }
 
