@@ -23,12 +23,13 @@ function useWikiFetch(title) {
   }, [finalUrl, title]);
 
   const rawData = data && data.parse;
-  console.log(rawData);
   const pages = sanitizeResponse(loading ? {} : rawData);
   const [displaytitle, , rawContent] = pages;
   const content = sanitizeHtml(loading ? null : rawContent['*']);
 
   return { loading, pages, content, displaytitle };
 }
+
+//https://en.wikipedia.org/w/api.php?action=help&modules=parse
 
 export default useWikiFetch;

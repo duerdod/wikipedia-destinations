@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
 import { StatsContext } from './StatsProvider';
+import theme from '../Theme';
 
 const Container = styled.div`
   padding: 0 1rem;
@@ -13,29 +14,38 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin: 1rem 0;
+  font-family: ${theme.titleFont};
+  color: ${theme.color.greyish};
 `;
 
 const StyledArticle = styled.div`
   overflow-wrap: break-word;
-  font-size: 0.875em;
-  line-height: 1.6;
-  font-size: 1rem;
 
   p {
     margin: 0.5em 0;
-  }
-  a {
-    color: brown;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: ${theme.color.greyish};
   }
 
-  li {
+  a {
+    color: ${theme.color.brown};
+  }
+
+  h1, h2, h3, h4 {
+    font-family: ${theme.titleFont};
+    line-height: 1.6;
+    font-size: 2rem;
   }
 
   ul,
   ol {
     list-style-type: disc;
+
+    li {
+    }
   }
 `;
 

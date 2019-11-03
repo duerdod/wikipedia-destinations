@@ -9,7 +9,7 @@ const alsoAllow = ['h2'];
 const sanitize = html =>
   sanitizeHtml(html, {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, ...alsoAllow],
-    allowedAttributes: { '*': ['class'] },
+    allowedAttributes: { '*': ['class', 'href'], 'div': ['style'] },
     allowedClasses: {
       div: ['thumb']
     },
