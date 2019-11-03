@@ -18,6 +18,7 @@ const theme = {
     large: '1.1rem',
     xlarge: '1.4rem'
   },
+  transition: '.4s ease',
   isMobile: '@media screen and (max-width: 52em)',
   titleFont: 'Arial Black, sans-serif'
 };

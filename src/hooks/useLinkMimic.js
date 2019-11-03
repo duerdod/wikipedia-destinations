@@ -11,7 +11,7 @@ function useLinkMimic({
   const { article } = useParams();
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current > 1) {
       const [displaytitle, article] = ref.current.children;
 
       if (!article.classList.contains(className)) {

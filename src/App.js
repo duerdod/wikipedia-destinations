@@ -4,6 +4,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme, { Reset } from './Theme';
 import { StatsProvider } from './components/StatsProvider';
 import Article from './components/Article';
+import StartFrom from './components/StartFrom';
 import Stats from './components/Stats';
 
 const Container = styled.section`
@@ -23,6 +24,7 @@ function App() {
           <Container>
             <Stats />
             <Route path={'/wiki/:article'} component={Article} />
+            <Route path={'/wiki'} component={StartFrom} />
           </Container>
         </Router>
       </StatsProvider>

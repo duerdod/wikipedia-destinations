@@ -5,8 +5,9 @@ import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
 import { StatsContext } from './StatsProvider';
 import theme from '../Theme';
+import Error from './Error';
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 0 1rem;
   max-width: 650px;
   margin: 0 auto;
@@ -34,9 +35,15 @@ const StyledArticle = styled.div`
     color: ${theme.color.brown};
   }
 
-  h1, h2, h3, h4 {
+  h3,
+  h4 {
     font-family: ${theme.titleFont};
     line-height: 1.6;
+    font-size: 1.2rem;
+  }
+  h1,
+  h2 {
+    font-family: ${theme.titleFont};
     font-size: 2rem;
   }
 
@@ -82,17 +89,19 @@ const Article = () => {
 
   return (
     <Container ref={articleRef}>
-      {loading ? (
-        <LoadingComponenet />
-      ) : (
-        <>
-          <Title>{displaytitle}</Title>
-          <StyledArticle
-            className="fetched-article"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-        </>
-      )}
+      <Error article={article}>
+        {loading ? (
+          <LoadingComponenet />
+        ) : (
+          <>
+            <Title>{displaytitle}</Title>
+            <StyledArticle
+              className="fetched-article"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </>
+        )}
+      </Error>
     </Container>
   );
 };
