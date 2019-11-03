@@ -1,6 +1,5 @@
 import React from 'react';
-import useFetch from '../hooks/useFetch';
-import sanitize from '../helpers/sanitizeHtml';
+import useWikiFetch from '../hooks/useWikiFetch';
 import styled from 'styled-components';
 
 const StyledArticle = styled.div`
@@ -12,14 +11,12 @@ const StyledArticle = styled.div`
 `;
 
 const Article = () => {
-  const url =
-    'https://en.wikipedia.org/w/api.php?action=query&titles=belgrade&prop=extracts&origin=*&format=json';
-  const { loading, pages } = useFetch(url);
+  const { loading, content, pages, links } = useWikiFetch('Bandy');
   if (loading) return <p>Loading...</p>;
 
-  const clean = sanitize(pages[55904].extract);
+  console.log(links);
 
-  return <StyledArticle dangerouslySetInnerHTML={{ __html: clean }} />;
+  return <StyledArticle dangerouslySetInnerHTML={{ __html: content }} />;
 };
 
 export default Article;
