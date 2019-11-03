@@ -1,22 +1,84 @@
-import React from 'react';
-import useWikiFetch from '../hooks/useWikiFetch';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import useWikiFetch from '../hooks/useWikiFetch';
+import useLinkMimic from '../hooks/useLinkMimic';
+
+const Container = styled.div`
+  padding: 0 1rem;
+  max-width: 650px;
+  margin: 0 auto;
+  font-family: sans-serif;
+`;
+
+const Title = styled.h1`
+  font-size: 2rem;
+  margin: 1rem 0;
+`;
 
 const StyledArticle = styled.div`
-  padding: 0 5rem;
-  b {
-    display: block;
-    font-size: 2rem;
+  overflow-wrap: break-word;
+  font-size: 0.875em;
+  line-height: 1.6;
+  font-size: 1rem;
+
+  p {
+    margin: 0.5em 0;
+  }
+  a {
+    color: brown;
+  }
+
+  li {
+  }
+
+  ul,
+  ol {
+    list-style-type: disc;
+    margin-left: 2rem;
   }
 `;
 
+const LoadingBox = styled.div`
+  background: #f5f5f5;
+  height: 3rem;
+  width: 40%;
+  margin: 1rem 0;
+  &.text {
+    width: 100%;
+    height: 20rem;
+  }
+`;
+
+const LoadingComponenet = () => (
+  <>
+    <LoadingBox />
+    <LoadingBox className="text" />
+  </>
+);
+
 const Article = () => {
-  const { loading, content, pages, links } = useWikiFetch('Bandy');
-  if (loading) return <p>Loading...</p>;
+  const { article } = useParams();
+  const { loading, content, displaytitle } = useWikiFetch(article);
+  const articleRef = useRef();
 
-  console.log(links);
+  useLinkMimic({ ref: articleRef, className: 'fetched-article', loading });
 
-  return <StyledArticle dangerouslySetInnerHTML={{ __html: content }} />;
+  return (
+    <Container ref={articleRef}>
+      {loading ? (
+        <LoadingComponenet />
+      ) : (
+        <>
+          <Title>{displaytitle}</Title>
+          <StyledArticle
+            className="fetched-article"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </>
+      )}
+    </Container>
+  );
 };
 
 export default Article;

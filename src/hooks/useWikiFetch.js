@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import sanitizeResponse from '../helpers/sanitizeResponse';
 import sanitizeHtml from '../helpers/sanitizeHtml';
-import useWikiLinks from './useWikiLinks';
 
 function useWikiFetch(title) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const finalUrl = `
-  https://en.wikipedia.org/w/api.php?action=query&titles=${title}&origin=*&format=json&prop=extracts|links&pllimit=250`;
+  const finalUrl = `https://en.wikipedia.org/w/api.php?action=parse&origin=*&format=json&page=${title}&prop=text|displaytitle&redirects=true`;
 
   useEffect(() => {
     async function fetchData(url) {
@@ -24,12 +22,12 @@ function useWikiFetch(title) {
     fetchData(finalUrl);
   }, [finalUrl, title]);
 
-  const rawData = data.query && data.query.pages;
+  const rawData = data && data.parse;
   const pages = sanitizeResponse(loading ? {} : rawData);
-  const content = sanitizeHtml(loading ? null : pages[0].extract);
-  const links = loading ? [] : pages[0].links;
+  const [displaytitle, , , rawContent] = pages;
+  const content = sanitizeHtml(loading ? null : rawContent['*']);
 
-  return { loading, pages, content, links };
+  return { loading, pages, content, displaytitle };
 }
 
 export default useWikiFetch;
