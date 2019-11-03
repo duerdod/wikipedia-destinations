@@ -5,7 +5,6 @@ import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
 import { StatsContext } from './StatsProvider';
 import theme from '../Theme';
-import Error from './Error';
 
 export const Container = styled.div`
   padding: 0 1rem;
@@ -89,19 +88,17 @@ const Article = () => {
 
   return (
     <Container ref={articleRef}>
-      <Error article={article}>
-        {loading ? (
-          <LoadingComponenet />
-        ) : (
-          <>
-            <Title>{displaytitle}</Title>
-            <StyledArticle
-              className="fetched-article"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          </>
-        )}
-      </Error>
+      {loading ? (
+        <LoadingComponenet />
+      ) : (
+        <>
+          <Title>{displaytitle}</Title>
+          <StyledArticle
+            className="fetched-article"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </>
+      )}
     </Container>
   );
 };

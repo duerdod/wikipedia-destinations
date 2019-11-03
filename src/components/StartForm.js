@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { StatsContext } from './StatsProvider';
 import theme from '../Theme';
 
 const Form = styled.form`
@@ -53,9 +54,13 @@ function inputFormatter(rawInput) {
     .replace(' ', '_');
 }
 
+const showFormOn = ['/', '/wiki', '/wiki/'];
+
 const StartFrom = () => {
-  let { push } = useHistory();
   const [rawInput, setInputValue] = useState('');
+  const { setStartedFrom } = useContext(StatsContext);
+  const location = useLocation();
+  const { push } = useHistory();
 
   const handleChange = e => {
     const { value } = e.target;
@@ -64,7 +69,7 @@ const StartFrom = () => {
 
   const handleSubmit = e => {
     const formattedInput = inputFormatter(rawInput);
-
+    setStartedFrom(rawInput);
     e.preventDefault();
     push({
       pathname: `/wiki/${formattedInput}`
@@ -72,10 +77,12 @@ const StartFrom = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Input type="text" onChange={handleChange} />
-      <Button type="submit">Start</Button>
-    </Form>
+    showFormOn.includes(location.pathname) && (
+      <Form onSubmit={handleSubmit}>
+        <Input type="text" onChange={handleChange} />
+        <Button type="submit">Start</Button>
+      </Form>
+    )
   );
 };
 
