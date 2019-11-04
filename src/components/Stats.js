@@ -6,6 +6,34 @@ import theme from '../Theme';
 const OuterContainer = styled.section`
   text-transform: uppercase;
   text-align: center;
+  position: relative;
+  z-index: 1;
+
+  .outer {
+    border-radius: 6px;
+    color: ${theme.color.background};
+    padding: 3px 3px 0 3px;
+    z-index: 2;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -22px;
+    background-image: linear-gradient(
+      to bottom,
+      ${p => p.theme.color.primary} 51%,
+      ${p => p.theme.color.primary} 71%,
+      ${p => p.theme.color.white} 72%,
+      ${p => p.theme.color.white} 100%
+    );
+    .inner {
+      background: ${theme.color.white};
+      border-radius: 3px;
+      padding: 0.2rem 0.7rem 0 0.7rem;
+      font-family: ${theme.titleFont};
+      font-weight: 800;
+      font-size: 1.5rem;
+    }
+  }
 `;
 
 const InnerContainer = styled.div`
@@ -20,28 +48,8 @@ const InnerContainer = styled.div`
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
-  align-items: center; 
+  align-items: center;
   position: relative;
-
-  &:before {
-    display: inline-block;
-    content: '${p => p.title}';
-    position: absolute;
-    font-family: ${theme.titleFont};
-    color: ${theme.color.primary};
-    background: ${theme.color.white};
-    text-transform: uppercase;
-    font-weight: 800;
-    font-size: 1.4rem;
-    top: -17px;
-    padding: 0 0.3rem;
-    border: 2px solid;
-    border-image: linear-gradient(to bottom, ${p =>
-      p.theme.color.primary} 50%, ${p => p.theme.color.primary} 51%, ${p =>
-  p.theme.color.white} 51%, ${p => p.theme.color.white} 100%);
-    border-image-slice: 1;
-    border-width: 3px;
-  }
 
   h2,
   h3 {
@@ -52,7 +60,6 @@ const InnerContainer = styled.div`
 
   @media screen and (max-width: 40em) {
   }
-
 `;
 
 const Destinations = styled.h3`
@@ -99,7 +106,10 @@ const Stats = () => {
 
   return (
     <OuterContainer>
-      <InnerContainer title="Yo Score">
+      <div className="outer">
+        <div className="inner">Yo scores</div>
+      </div>
+      <InnerContainer>
         <Destinations>
           Depature
           <Destination>{start}</Destination>
