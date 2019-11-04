@@ -10,6 +10,7 @@ import Stats from './components/Stats';
 const Container = styled.section`
   background: inherit;
   padding: 1rem 2rem;
+  margin-top: 1rem;
   @media screen and (max-width: 40em) {
     padding: 2rem 0.5rem;
   }

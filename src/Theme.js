@@ -1,14 +1,19 @@
 import { createGlobalStyle } from 'styled-components';
 
 const theme = {
-  black: '#383838',
-  background: '#f8f8f8',
+  black: '#eeeeee',
+  background: '#042f4b',
   color: {
-    greyish: '#2b2e4a',
-    blue: '#1089ff',
-    red: '#e84545',
+    greyish: '#110133',
+    blue: '#ffdc34',
+    red: '#00918e',
     brown: '#903749',
-    darkBrown: '#53354a'
+    darkBrown: '#53354a',
+    background: '#042f4b',
+    primary: '#ed1250',
+    secondary: '#fbc99d',
+    bodyColor: '#f5f5f5',
+    titleColor: '#fbc99d'
   },
   boxShadow: '0 2px 6px 0 hsla(0, 0%, 0%, 0.09)',
   fontSize: {
@@ -26,10 +31,10 @@ const theme = {
 
 export const Reset = createGlobalStyle`
   body {
-    background: ${theme.background};
+    background: ${theme.color.background};
     background-attachment: fixed;
     height: 100%;
-    color: ${theme.black};
+    color: ${theme.color.bodyColor};
     font-family: ${theme.sansSerif};
     padding: 0;
     margin: 0;

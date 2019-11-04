@@ -33,7 +33,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  background: ${theme.background};
+  background: #ffffff;
   display: block;
 
   &:last-of-type {

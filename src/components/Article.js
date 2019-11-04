@@ -17,7 +17,8 @@ const Title = styled.h1`
   font-size: 2.5rem;
   margin: 1rem 0;
   font-family: ${theme.titleFont};
-  color: ${theme.color.greyish};
+  color: ${theme.color.titleColor};
+  font-weight: 800;
 `;
 
 const StyledArticle = styled.div`
@@ -27,11 +28,11 @@ const StyledArticle = styled.div`
     margin: 0.5em 0;
     line-height: 1.6;
     font-size: 1rem;
-    color: ${theme.color.greyish};
+    /* color: ${theme.color.greyish}; */
   }
 
   a {
-    color: ${theme.color.brown};
+    color: ${theme.color.secondary};
   }
 
   h3,
@@ -39,11 +40,15 @@ const StyledArticle = styled.div`
     font-family: ${theme.titleFont};
     line-height: 1.6;
     font-size: 1.2rem;
+    color: ${theme.color.titleColor};
+    font-weight: 800;
   }
   h1,
   h2 {
     font-family: ${theme.titleFont};
     font-size: 2rem;
+    font-weight: 800;
+    color: ${theme.color.titleColor};
   }
 
   ul,

@@ -10,11 +10,13 @@ const OuterContainer = styled.section`
 `;
 
 const InnerContainer = styled.div`
-  border: 3px solid ${p => p.theme.color.greyish};
+  border: 3px solid ${p => p.theme.color.primary};
   border-radius: 7px;
-  padding: 2rem 2rem 3rem 2rem;
+  padding: 2.5rem 2rem 3rem 2rem;
   max-width: 460px;
   margin: 0 auto 2rem auto;
+  background: #ffffff;
+  /* box-shadow: 0 0 7px #F14173; */
 
   display: grid;
   grid-template-rows: 1fr;
@@ -28,19 +30,25 @@ const InnerContainer = styled.div`
     content: '${p => p.title}';
     position: absolute;
     font-family: ${theme.titleFont};
-    color: ${theme.color.red};
-    background: ${theme.background};
+    color: ${theme.color.primary};
+    background: #ffffff;
     text-transform: uppercase;
     font-weight: 800;
-    top: -11px;
-    border-radius: 100%;
+    font-size: 1.1rem;
+    top: -14px;
     padding: 0 0.3rem;
+    border: 2px solid;
+    border-image: linear-gradient(to bottom, ${p =>
+      p.theme.color.primary} 50%, ${p =>
+  p.theme.color.primary} 51%, #ffffff 51%, #ffffff 100%);
+    border-image-slice: 1;
+    border-width: 3px;
   }
 
   h2,
   h3 {
     font-family: ${theme.titleFont};
-    color: ${theme.color.red};
+    color: ${theme.color.primary};
     text-transform: uppercase;
     font-weight: 800;
   }
