@@ -6,6 +6,7 @@ function useWikiFetch(title) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
+  // Clean up.
   const finalUrl = `https://en.wikipedia.org/w/api.php?action=parse&origin=*&format=json&page=${title}&disabletoc=true&disableeditsection=true&disablestylededuplication=true&prop=text|displaytitle`;
 
   useEffect(() => {

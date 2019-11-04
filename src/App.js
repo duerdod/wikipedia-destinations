@@ -11,7 +11,7 @@ const Container = styled.section`
   background: inherit;
   padding: 1rem 2rem;
   @media screen and (max-width: 40em) {
-    padding: 0;
+    padding: 2rem 0.5rem;
   }
 `;
 
@@ -19,15 +19,15 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Reset />
-      <StatsProvider>
-        <Router>
+      <Router>
+        <StatsProvider>
           <Container>
             <Stats />
             <Route path={'/wiki/:article'} component={Article} />
             <Route path={'/'} component={StartForm} />
           </Container>
-        </Router>
-      </StatsProvider>
+        </StatsProvider>
+      </Router>
     </ThemeProvider>
   );
 }

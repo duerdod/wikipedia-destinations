@@ -1,6 +1,6 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect, useLocation } from 'react-router-dom';
 import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
 import { StatsContext } from './StatsProvider';
@@ -73,9 +73,12 @@ const LoadingComponenet = () => (
   </>
 );
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const Article = () => {
   const { article } = useParams();
-  const { incrementSteps } = useContext(StatsContext);
+  const location = useLocation();
+  const { incrementSteps, shouldRedirectToStart } = useContext(StatsContext);
   const { loading, content, displaytitle } = useWikiFetch(article);
   const articleRef = useRef();
 
@@ -83,8 +86,17 @@ const Article = () => {
     ref: articleRef,
     className: 'fetched-article',
     loading,
-    fn: incrementSteps
+    fn: null
   });
+
+  // eslint-disable-next-line
+  useEffect(() => incrementSteps, [location.pathname]);
+
+  if (!isDev) {
+    if (shouldRedirectToStart) {
+      return <Redirect to="/" />;
+    }
+  }
 
   return (
     <Container ref={articleRef}>

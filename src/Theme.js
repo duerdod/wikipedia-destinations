@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const theme = {
   black: '#383838',
-  background: '#eeeeee',
+  background: '#f5f5f5',
   color: {
     greyish: '#2b2e4a',
     blue: '#1089ff',
@@ -20,7 +20,8 @@ const theme = {
   },
   transition: '.4s ease',
   isMobile: '@media screen and (max-width: 52em)',
-  titleFont: 'Arial Black, sans-serif'
+  titleFont: 'Open Sans, Arial Black, sans-serif',
+  font: 'Open Sans, Arial Black, sans-serif'
 };
 
 export const Reset = createGlobalStyle`
@@ -33,6 +34,9 @@ export const Reset = createGlobalStyle`
     padding: 0;
     margin: 0;
     overflow-x: hidden;
+    * {
+      box-sizing: border-box;
+    }
   }
   html {
     text-rendering: optimizeLegibility;

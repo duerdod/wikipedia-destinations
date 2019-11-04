@@ -1,15 +1,15 @@
 import sanitizeHtml from 'sanitize-html';
 
-const linkRegex = new RegExp(/.php|https|http|:|#|commons/, 'i');
+const linkRegex = new RegExp(/.php|https|http|:|#cite|commons/, 'i');
 const textRegex = new RegExp(/[[\]^]|Contents/, 'i');
 const classRegex = new RegExp(/thumb/, 'i');
 
-const alsoAllow = ['h2'];
+const alsoAllow = ['img', 'h2'];
 
 const sanitize = html =>
   sanitizeHtml(html, {
     allowedTags: [...sanitizeHtml.defaults.allowedTags, ...alsoAllow],
-    allowedAttributes: { '*': ['class', 'href'], 'div': ['style'] },
+    allowedAttributes: { '*': ['class', 'href', 'src'], div: ['style'] },
     allowedClasses: {
       div: ['thumb']
     },
