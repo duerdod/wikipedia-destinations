@@ -5,6 +5,7 @@ import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
 import { StatsContext } from './StatsProvider';
 import theme from '../Theme';
+import Error from './Error';
 
 export const Container = styled.div`
   padding: 0 1rem;
@@ -83,7 +84,7 @@ const Article = () => {
   const { article } = useParams();
   const location = useLocation();
   const { incrementSteps, shouldRedirectToStart } = useContext(StatsContext);
-  const { loading, content, displaytitle } = useWikiFetch(article);
+  const { loading, error, content, displaytitle } = useWikiFetch(article);
   const articleRef = useRef();
 
   useLinkMimic({
@@ -106,6 +107,8 @@ const Article = () => {
     <Container ref={articleRef}>
       {loading ? (
         <LoadingComponenet />
+      ) : error ? (
+        <Error title="Are you lost?" />
       ) : (
         <>
           <Title>{displaytitle}</Title>

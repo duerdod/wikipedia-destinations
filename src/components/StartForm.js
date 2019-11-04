@@ -1,14 +1,16 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory, useLocation } from 'react-router-dom';
 import { StatsContext } from './StatsProvider';
 import theme from '../Theme';
+import useWikiFetch from '../hooks/useWikiFetch';
+import Error from './Error';
 
 const Form = styled.form`
   margin: 0 auto;
   width: 100%;
   max-width: 300px;
-border: 2px solid ${p => p.theme.color.secondary};
+  border: 2px solid ${p => p.theme.color.secondary};
 
   input,
   button {
@@ -30,6 +32,15 @@ border: 2px solid ${p => p.theme.color.secondary};
     button {
     }
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+    border: 2px solid ${theme.color.primary};
+    button {
+    background: ${theme.color.primary};
+    }
+  `}
 `;
 
 const Input = styled.input`
@@ -94,13 +105,16 @@ const StartForm = () => {
     StatsContext
   );
   const [raw, dispatch] = useReducer(formReducer, initDestinations);
-
+  const [customError, setCustomError] = useState(false);
   const location = useLocation();
   const { push } = useHistory();
+  const { error, loading } = useWikiFetch(raw.destination);
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (!checkValid) return false;
+
+    if (!checkValid && error !== null) return false;
+
     const formattedInput = inputFormatter(raw.start);
     setDestinations(raw);
     push({
@@ -108,27 +122,40 @@ const StartForm = () => {
     });
   };
 
+  useEffect(() => {
+    setCustomError(
+      raw.destination.length > 1 && !loading && error && error.length > 0
+        ? true
+        : false
+    );
+  }, [error, loading, raw.destination.length]);
+
   return (
     showFormOn.includes(location.pathname) && (
-      <Form onSubmit={handleSubmit}>
-        <Input
-          required
-          name="start"
-          placeholder="Depature from"
-          type="text"
-          onChange={e => dispatch({ type: 'START', start: e.target.value })}
-        />
-        <Input
-          required
-          name="destination"
-          placeholder="Bound for"
-          type="text"
-          onChange={e =>
-            dispatch({ type: 'DESTINATION', destination: e.target.value })
-          }
-        />
-        <Button type="submit">Start</Button>
-      </Form>
+      <>
+        <Form disabled={loading || customError} onSubmit={handleSubmit}>
+          <Input
+            required
+            name="start"
+            placeholder="Depature from"
+            type="text"
+            onChange={e => dispatch({ type: 'START', start: e.target.value })}
+          />
+          <Input
+            required
+            name="destination"
+            placeholder="Bound for"
+            type="text"
+            onChange={e =>
+              dispatch({ type: 'DESTINATION', destination: e.target.value })
+            }
+          />
+          <Button type="submit" disabled={loading || customError}>
+            Start
+          </Button>
+        </Form>
+        {customError ? <Error title="No such destination :(" /> : null}
+      </>
     )
   );
 };
