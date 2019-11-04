@@ -8,12 +8,12 @@ const Form = styled.form`
   margin: 0 auto;
   width: 100%;
   max-width: 300px;
+border: 2px solid ${p => p.theme.color.secondary};
 
   input,
   button {
-    color: ${theme.color.greyish};
-    border: 2px solid ${theme.color.greyish};
-    padding: 0.5rem 0.3rem;
+    /* border: 2px solid ${p => p.theme.color.white}; */
+    padding: 0.5rem 0.4rem;
     font-family: ${theme.titleFont};
     font-size: ${theme.fontSize.normal};
     transition: all ${p => p.theme.transition};
@@ -33,23 +33,23 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  background: #ffffff;
+  background: ${theme.color.white};
   display: block;
 
   &:last-of-type {
+    border-top: 1px solid #eeeeee;
     margin-top: -2px;
   }
 
   &:focus {
     background: #ffffff;
     &::placeholder {
-      color: ${theme.color.greyish};
-      opacity: 0.2;
+      color: ${theme.color.background};
     }
   }
 
   &::placeholder {
-    color: ${theme.color.greyish};
+    color: ${theme.color.background};
     font-size: 0.6rem;
     text-transform: uppercase;
     opacity: 1;
@@ -60,10 +60,11 @@ const Button = styled.button`
   margin-top: -2px;
   text-transform: uppercase;
   font-weight: 800;
+  background: ${theme.color.secondary};
+  color: ${theme.color.background};
   cursor: pointer;
   &:hover {
-    color: ${theme.background};
-    background: ${theme.color.greyish};
+    background: #fbcea7;
   }
 `;
 

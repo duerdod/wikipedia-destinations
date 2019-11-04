@@ -4,11 +4,7 @@ const theme = {
   black: '#eeeeee',
   background: '#042f4b',
   color: {
-    greyish: '#110133',
-    blue: '#ffdc34',
-    red: '#00918e',
-    brown: '#903749',
-    darkBrown: '#53354a',
+    white: '#F7F7F7',
     background: '#042f4b',
     primary: '#ed1250',
     secondary: '#fbc99d',

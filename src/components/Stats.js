@@ -4,9 +4,8 @@ import { StatsContext } from './StatsProvider';
 import theme from '../Theme';
 
 const OuterContainer = styled.section`
-  margin-bottom: 2rem;
-  /* display: flex; */
-  /* justify-content: center; */
+  text-transform: uppercase;
+  text-align: center;
 `;
 
 const InnerContainer = styled.div`
@@ -14,9 +13,8 @@ const InnerContainer = styled.div`
   border-radius: 7px;
   padding: 2.5rem 2rem 3rem 2rem;
   max-width: 460px;
-  margin: 0 auto 2rem auto;
-  background: #ffffff;
-  /* box-shadow: 0 0 7px #F14173; */
+  margin: 1rem auto;
+  background: ${theme.color.white};
 
   display: grid;
   grid-template-rows: 1fr;
@@ -31,16 +29,16 @@ const InnerContainer = styled.div`
     position: absolute;
     font-family: ${theme.titleFont};
     color: ${theme.color.primary};
-    background: #ffffff;
+    background: ${theme.color.white};
     text-transform: uppercase;
     font-weight: 800;
-    font-size: 1.1rem;
-    top: -14px;
+    font-size: 1.4rem;
+    top: -17px;
     padding: 0 0.3rem;
     border: 2px solid;
     border-image: linear-gradient(to bottom, ${p =>
-      p.theme.color.primary} 50%, ${p =>
-  p.theme.color.primary} 51%, #ffffff 51%, #ffffff 100%);
+      p.theme.color.primary} 50%, ${p => p.theme.color.primary} 51%, ${p =>
+  p.theme.color.white} 51%, ${p => p.theme.color.white} 100%);
     border-image-slice: 1;
     border-width: 3px;
   }
@@ -48,13 +46,11 @@ const InnerContainer = styled.div`
   h2,
   h3 {
     font-family: ${theme.titleFont};
-    color: ${theme.color.primary};
     text-transform: uppercase;
     font-weight: 800;
   }
 
   @media screen and (max-width: 40em) {
-    /* grid-template-columns: 2fr 1fr 2fr; */
   }
 
 `;
@@ -62,8 +58,8 @@ const InnerContainer = styled.div`
 const Destinations = styled.h3`
   font-size: 1rem;
   padding: 0 1rem;
+  color: ${theme.color.background};
   && {
-    color: ${theme.color.greyish};
   }
 `;
 
@@ -74,11 +70,12 @@ const Step = styled.h2`
   padding: 0 1rem;
   line-height: 0;
   position: relative;
+  color: ${theme.color.primary};
   &:after {
     display: block;
     content: 'Steps';
     font-size: 0.7rem;
-    color: ${theme.color.greyish};
+    color: ${theme.color.primary};
     position: absolute;
     top: 43px;
     left: 50%;
@@ -86,9 +83,17 @@ const Step = styled.h2`
   }
 `;
 
+const Reset = styled.a`
+  color: ${theme.color.secondary};
+  font-family: ${theme.titleFont};
+  font-size: 0.65rem;
+  margin-bottom: 2rem;
+`;
+
 const Stats = () => {
   const {
     steps,
+    location: { pathname },
     destinations: { start, destination }
   } = useContext(StatsContext);
 
@@ -105,6 +110,7 @@ const Stats = () => {
           <Destination>{destination}</Destination>
         </Destinations>
       </InnerContainer>
+      {pathname !== '/' && <Reset href="/">Start over</Reset>}
     </OuterContainer>
   );
 };

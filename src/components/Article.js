@@ -28,7 +28,6 @@ const StyledArticle = styled.div`
     margin: 0.5em 0;
     line-height: 1.6;
     font-size: 1rem;
-    /* color: ${theme.color.greyish}; */
   }
 
   a {
@@ -61,7 +60,7 @@ const StyledArticle = styled.div`
 `;
 
 const LoadingBox = styled.div`
-  background: #f5f5f5;
+  background: #042a44;
   height: 3rem;
   width: 40%;
   margin: 1rem 0;

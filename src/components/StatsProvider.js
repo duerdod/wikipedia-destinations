@@ -28,6 +28,7 @@ function StatsProvider({ children }) {
       value={{
         steps,
         crumbs,
+        location,
         setCrumbs,
         checkValid,
         destinations,
