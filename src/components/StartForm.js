@@ -18,6 +18,7 @@ const Form = styled.form`
     font-size: ${theme.fontSize.normal};
     transition: all ${p => p.theme.transition};
     width: 100%;
+    border-radius: 0;
   }
   @media screen and (max-width: 40em) {
     display: block;
@@ -112,7 +113,7 @@ const StartForm = () => {
         <Input
           required
           name="start"
-          placeholder="Starts from"
+          placeholder="Depature from"
           type="text"
           onChange={e => dispatch({ type: 'START', start: e.target.value })}
         />
