@@ -11,7 +11,7 @@ const theme = {
     bodyColor: '#f5f5f5',
     titleColor: '#fbc99d'
   },
-  boxShadow: '0 2px 6px 0 hsla(0, 0%, 0%, 0.09)',
+  boxShadow: '0 2px 6px 0 hsla(0, 0%, 0%, .5)',
   fontSize: {
     xsmall: '0.75rem',
     small: '0.875rem',

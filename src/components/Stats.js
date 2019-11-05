@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { StatsContext } from './StatsProvider';
+import { PopupContext } from '../context/PopupContext';
 import theme from '../Theme';
+import Popup from './Popup';
 
 const OuterContainer = styled.section`
   text-transform: uppercase;
@@ -102,18 +104,24 @@ const Step = styled.h2`
 `;
 
 const Reset = styled.a`
-  color: ${theme.color.secondary};
+  color: ${theme.color.background};
   font-family: ${theme.titleFont};
   font-size: 0.65rem;
   margin-bottom: 2rem;
 `;
 
+const Button = styled.button`
+  cursor: pointer;
+  margin-bottom: 1rem;
+`;
+
 const Stats = () => {
   const {
     steps,
-    location: { pathname },
     destinations: { start, destination }
   } = useContext(StatsContext);
+
+  const { setShowPopup } = useContext(PopupContext);
 
   return (
     <OuterContainer>
@@ -131,7 +139,14 @@ const Stats = () => {
           <Destinations>{destination}</Destinations>
         </Destination>
       </InnerContainer>
-      {pathname !== '/' && <Reset href="/">Restart</Reset>}
+      <Popup>
+        <Reset href="/">Restart</Reset>
+      </Popup>
+      <Button onClick={setShowPopup} style={{ fontSize: '2rem' }}>
+        <span role="img" aria-label="settings">
+          ⚙️
+        </span>
+      </Button>
     </OuterContainer>
   );
 };
