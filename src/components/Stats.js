@@ -39,17 +39,17 @@ const OuterContainer = styled.section`
 const InnerContainer = styled.div`
   border: 3px solid ${p => p.theme.color.primary};
   border-radius: 7px;
-  padding: 2.5rem 2rem 3rem 2rem;
-  max-width: 460px;
+  padding: 0.4rem 1rem 0.5rem 1rem;
+  max-width: 500px;
   margin: 1rem auto;
   background: ${theme.color.white};
 
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
+  /* justify-items: center;
   align-items: center;
-  position: relative;
+  position: relative; */
 
   h2,
   h3 {
@@ -60,22 +60,33 @@ const InnerContainer = styled.div`
 
   @media screen and (max-width: 40em) {
   }
-`;
 
-const Destinations = styled.h3`
-  font-size: 1rem;
-  padding: 0 1rem;
-  color: ${theme.color.background};
-  && {
+  * {
+    -webkit-touch-callout: none; /* iOS Safari */
+    user-select: none;
   }
 `;
 
-const Destination = styled.div``;
+const Destinations = styled.h3`
+  font-size: 0.95rem;
+  padding: 0 1rem;
+  color: ${theme.color.background};
+  white-space: pre-wrap;
+  &.title {
+    color: ${theme.color.primary};
+  }
+`;
+
+const Destination = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 20px 1fr;
+`;
 
 const Step = styled.h2`
   font-size: 6rem;
-  padding: 0 1rem;
-  line-height: 0;
+  padding: 2.2rem 2rem;
+  line-height: 0.4;
   position: relative;
   color: ${theme.color.primary};
   &:after {
@@ -84,7 +95,7 @@ const Step = styled.h2`
     font-size: 0.7rem;
     color: ${theme.color.primary};
     position: absolute;
-    top: 43px;
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -110,17 +121,17 @@ const Stats = () => {
         <div className="inner">Yo scores</div>
       </div>
       <InnerContainer>
-        <Destinations>
-          Depature
-          <Destination>{start}</Destination>
-        </Destinations>
+        <Destination>
+          <Destinations className="title">Depature</Destinations>
+          <Destinations>{start}</Destinations>
+        </Destination>
         <Step>{steps}</Step>
-        <Destinations>
-          Bound
-          <Destination>{destination}</Destination>
-        </Destinations>
+        <Destination>
+          <Destinations className="title">Bound</Destinations>
+          <Destinations>{destination}</Destinations>
+        </Destination>
       </InnerContainer>
-      {pathname !== '/' && <Reset href="/">Start over</Reset>}
+      {pathname !== '/' && <Reset href="/">Restart</Reset>}
     </OuterContainer>
   );
 };

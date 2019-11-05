@@ -3,7 +3,10 @@ import { useLocation } from 'react-router-dom';
 
 const StatsContext = createContext();
 
-const initDestinations = { start: '', destination: '' };
+const initDestinations = {
+  start: '',
+  destination: ''
+};
 
 function StatsProvider({ children }) {
   const [steps, setStep] = useState(0);

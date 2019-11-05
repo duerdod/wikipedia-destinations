@@ -24,7 +24,6 @@ const Form = styled.form`
   }
   @media screen and (max-width: 40em) {
     display: block;
-    padding: 1rem;
     input,
     button {
       display: block;
@@ -108,7 +107,10 @@ const StartForm = () => {
   const [customError, setCustomError] = useState(false);
   const location = useLocation();
   const { push } = useHistory();
-  const { error, loading } = useWikiFetch(raw.destination);
+  const { destination } = raw;
+  const { error, loading } = useWikiFetch(
+    destination.length ? destination : ''
+  );
 
   const handleSubmit = e => {
     e.preventDefault();
