@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { useTransition, animated } from 'react-spring';
@@ -17,18 +17,9 @@ const Backdrop = styled.div`
 const PopupContainer = styled(animated.div)`
   position: absolute;
   z-index: 200;
-  max-width: 450px;
   left: 50%;
   top: 40%;
   box-shadow: ${theme.boxShadow};
-`;
-
-const InnerContainer = styled.div`
-  background: ${theme.color.white};
-  color: ${theme.color.background};
-  font-family: ${theme.titleFont};
-  padding: 2rem 5rem;
-  border-radius: 3px;
 `;
 
 const Popup = ({ children, id }) => {
@@ -48,7 +39,7 @@ const Popup = ({ children, id }) => {
             return (
               item && (
                 <PopupContainer key={key} style={props}>
-                  <InnerContainer>{children}</InnerContainer>
+                  {children}
                 </PopupContainer>
               )
             );

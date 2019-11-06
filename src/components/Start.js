@@ -10,11 +10,11 @@ const Form = styled.form`
   margin: 0 auto;
   width: 100%;
   max-width: 300px;
-  border: 2px solid ${p => p.theme.color.secondary};
+  border: 2px solid ${p => p.theme.color.beige.hex};
 
   input,
   button {
-    /* border: 2px solid ${p => p.theme.color.white}; */
+    /* border: 2px solid ${p => p.theme.color.white.hex}; */
     padding: 0.5rem 0.4rem;
     font-family: ${theme.titleFont};
     font-size: ${theme.fontSize.normal};
@@ -35,15 +35,15 @@ const Form = styled.form`
   ${({ disabled }) =>
     disabled &&
     `
-    border: 2px solid ${theme.color.primary};
+    border: 2px solid ${theme.color.red.hex};
     button {
-    background: ${theme.color.primary};
+    background: ${theme.color.red.hex};
     }
   `}
 `;
 
 const Input = styled.input`
-  background: ${theme.color.white};
+  background: ${theme.color.white.hex};
   display: block;
 
   &:last-of-type {
@@ -54,12 +54,12 @@ const Input = styled.input`
   &:focus {
     background: #ffffff;
     &::placeholder {
-      color: ${theme.color.background};
+      color: ${theme.color.blue.hex};
     }
   }
 
   &::placeholder {
-    color: ${theme.color.background};
+    color: ${theme.color.blue.hex};
     font-size: 0.6rem;
     text-transform: uppercase;
     opacity: 1;
@@ -70,8 +70,8 @@ const Button = styled.button`
   margin-top: -2px;
   text-transform: uppercase;
   font-weight: 800;
-  background: ${theme.color.secondary};
-  color: ${theme.color.background};
+  background: ${theme.color.beige.hex};
+  color: ${theme.color.blue.hex};
   cursor: pointer;
   &:hover {
     background: #fbcea7;
@@ -109,7 +109,13 @@ const Start = () => {
   const { push } = useHistory();
   const { destination } = raw;
 
-  const { error, loading } = false;
+  const { loading, error } = useWikiFetch(destination);
+
+  useEffect(() => {
+    if (error && destination.length > 1) {
+      return setCustomError(true);
+    } else return setCustomError(false);
+  }, [destination, error]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -120,8 +126,6 @@ const Start = () => {
       pathname: `/wiki/${formattedInput}`
     });
   };
-
-  useEffect(() => {});
 
   return (
     showFormOn.includes(location.pathname) && (

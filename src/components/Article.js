@@ -19,7 +19,7 @@ const Title = styled.h1`
   font-size: 2.5rem;
   margin: 1rem 0;
   font-family: ${theme.titleFont};
-  color: ${theme.color.titleColor};
+  color: ${theme.color.beige.hex};
   font-weight: 800;
 `;
 
@@ -33,7 +33,7 @@ const StyledArticle = styled.div`
   }
 
   a {
-    color: ${theme.color.secondary};
+    color: ${theme.color.beige.hex};
   }
 
   h3,
@@ -41,7 +41,7 @@ const StyledArticle = styled.div`
     font-family: ${theme.titleFont};
     line-height: 1.6;
     font-size: 1.2rem;
-    color: ${theme.color.titleColor};
+    color: ${theme.color.beige.hex};
     font-weight: 800;
   }
   h1,
@@ -49,14 +49,15 @@ const StyledArticle = styled.div`
     font-family: ${theme.titleFont};
     font-size: 2rem;
     font-weight: 800;
-    color: ${theme.color.titleColor};
+    color: ${theme.color.beige.hex};
   }
 
   ul,
   ol {
-    list-style-type: disc;
-
+    margin: 1rem;
     li {
+      margin-bottom: 0.5rem;
+      list-style: disc;
     }
   }
 `;

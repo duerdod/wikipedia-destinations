@@ -4,12 +4,85 @@ const theme = {
   black: '#eeeeee',
   background: '#042f4b',
   color: {
-    white: '#F7F7F7',
-    background: '#042f4b',
-    primary: '#ed1250',
-    secondary: '#fbc99d',
-    bodyColor: '#f5f5f5',
-    titleColor: '#fbc99d'
+    white: {
+      hex: '#F7F7F7',
+      tint: [
+        '#DEDEDE',
+        '#C6C6C6',
+        '#ADADAD',
+        '#949494',
+        '#7C7C7C',
+        '#636363',
+        '#4A4A4A',
+        '#313131',
+        '#191919',
+        '#000000'
+      ]
+    },
+    blue: {
+      hex: '#042F4B',
+      tint: [
+        '#042F4B',
+        '#1D445D',
+        '#36596F',
+        '#4F6D81',
+        '#688293',
+        '#8297A5',
+        '#9BACB7',
+        '#B4C1C9',
+        '#CDD5DB',
+        '#E6EAED',
+        '#FFFFFF'
+      ]
+    },
+    red: {
+      hex: '#ED1250',
+      tint: [
+        '#ED1250',
+        '#EF2A62',
+        '#F14173',
+        '#F25985',
+        '#F47196',
+        '#F689A8',
+        '#F8A0B9',
+        '#FAB8CB',
+        '#FBD0DC',
+        '#FDE7EE',
+        '#FFFFFF'
+      ]
+    },
+    beige: {
+      hex: '#FBC99D',
+      tint: [
+        '#FBC99D',
+        '#FBCEA7',
+        '#FCD4B1',
+        '#FCD9BA',
+        '#FDDFC4',
+        '#FDE4CE',
+        '#FDE9D8',
+        '#FEEFE2',
+        '#FEF4EB',
+        '#FFFAF5',
+        '#FFFFFF'
+      ]
+    },
+    green: {
+      hex: '#3C9D9B',
+      tint: [
+        '#3C9D9B',
+        '#50A7A5',
+        '#63B1AF',
+        '#77BAB9',
+        '#8AC4C3',
+        '#9ECECD',
+        '#B1D8D7',
+        '#C5E2E1',
+        '#D8EBEB',
+        '#ECF5F5',
+        '#FFFFFF'
+      ]
+    }
   },
   boxShadow: '0 2px 6px 0 hsla(0, 0%, 0%, .5)',
   fontSize: {
@@ -27,16 +100,20 @@ const theme = {
 
 export const Reset = createGlobalStyle`
   body {
-    background: ${theme.color.background};
+    background: ${theme.color.blue.hex};
     background-attachment: fixed;
     height: 100%;
-    color: ${theme.color.bodyColor};
+    color: ${theme.color.white.hex};
     font-family: ${theme.sansSerif};
     padding: 0;
     margin: 0;
     overflow-x: hidden;
     * {
       box-sizing: border-box;
+    }
+
+    &.popup-open {
+      overflow: hidden;
     }
   }
   html {

@@ -16,7 +16,7 @@ const CrumbContainer = styled.div`
 const Crumb = styled(Link)`
   font-size: 0.65rem;
   font-family: ${theme.titleFont};
-  color: ${theme.color.secondary};
+  color: ${theme.color.beige.hex};
 
   &:not(:last-of-type) {
     &:after {

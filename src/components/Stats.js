@@ -3,18 +3,16 @@ import styled from 'styled-components';
 import { GameContext } from '../context/GameContext';
 import { PopupContext } from '../context/PopupContext';
 import theme from '../Theme';
-import Popup from './Popup';
 
 const OuterContainer = styled.section`
   text-transform: uppercase;
   text-align: center;
   position: relative;
   z-index: 1;
-  margin-top: 5rem;
 
   .outer {
     border-radius: 6px;
-    color: ${theme.color.background};
+    color: ${theme.color.blue.hex};
     padding: 3px 3px 0 3px;
     z-index: 2;
     position: absolute;
@@ -23,13 +21,13 @@ const OuterContainer = styled.section`
     top: -22px;
     background-image: linear-gradient(
       to bottom,
-      ${p => p.theme.color.primary} 51%,
-      ${p => p.theme.color.primary} 71%,
-      ${p => p.theme.color.white} 72%,
-      ${p => p.theme.color.white} 100%
+      ${p => p.theme.color.red.hex} 51%,
+      ${p => p.theme.color.red.hex} 71%,
+      ${p => p.theme.color.white.hex} 72%,
+      ${p => p.theme.color.white.hex} 100%
     );
     .inner {
-      background: ${theme.color.white};
+      background: ${theme.color.white.hex};
       border-radius: 3px;
       padding: 0.2rem 0.7rem 0 0.7rem;
       font-family: ${theme.titleFont};
@@ -40,12 +38,12 @@ const OuterContainer = styled.section`
 `;
 
 const InnerContainer = styled.div`
-  border: 3px solid ${p => p.theme.color.primary};
+  border: 3px solid ${p => p.theme.color.red.hex};
   border-radius: 7px;
   padding: 0.4rem 1rem 0.5rem 1rem;
   max-width: 500px;
   margin: 1rem auto;
-  background: ${theme.color.white};
+  background: ${theme.color.white.hex};
 
   display: grid;
   grid-template-rows: 1fr;
@@ -73,10 +71,10 @@ const InnerContainer = styled.div`
 const Destinations = styled.h3`
   font-size: 0.95rem;
   padding: 0 1rem;
-  color: ${theme.color.background};
+  color: ${theme.color.blue.hex};
   white-space: pre-wrap;
   &.title {
-    color: ${theme.color.primary};
+    color: ${theme.color.red.hex};
   }
 `;
 
@@ -91,12 +89,12 @@ const Step = styled.h2`
   padding: 2.2rem 2rem;
   line-height: 0.4;
   position: relative;
-  color: ${theme.color.primary};
+  color: ${theme.color.red.hex};
   &:after {
     display: block;
     content: 'Steps';
     font-size: 0.7rem;
-    color: ${theme.color.primary};
+    color: ${theme.color.red.hex};
     position: absolute;
     bottom: 5px;
     left: 50%;
@@ -104,25 +102,11 @@ const Step = styled.h2`
   }
 `;
 
-const Reset = styled.a`
-  color: ${theme.color.background};
-  font-family: ${theme.titleFont};
-  font-size: 0.65rem;
-  margin-bottom: 2rem;
-`;
-
-const Button = styled.button`
-  cursor: pointer;
-  margin-bottom: 1rem;
-`;
-
 const Stats = () => {
   const {
     steps,
     destinations: { start, destination }
   } = useContext(GameContext);
-
-  const { showPopup } = useContext(PopupContext);
 
   return (
     <OuterContainer>
@@ -140,17 +124,6 @@ const Stats = () => {
           <Destinations>{destination}</Destinations>
         </Destination>
       </InnerContainer>
-      <Popup id="settings">
-        <Reset href="/">Restart</Reset>
-      </Popup>
-      <Button
-        onClick={() => showPopup('settings')}
-        style={{ fontSize: '2rem' }}
-      >
-        <span role="img" aria-label="settings">
-          ⚙️
-        </span>
-      </Button>
     </OuterContainer>
   );
 };
