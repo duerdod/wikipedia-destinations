@@ -4,7 +4,7 @@ import Popup from './Popup';
 import theme from '../Theme';
 import { PopupContext } from '../context/PopupContext';
 
-const InnerContainer = styled.div`
+export const InnerContainer = styled.div`
   background: ${theme.color.white.hex};
   color: ${theme.color.blue.hex};
   font-family: ${theme.titleFont};
@@ -44,7 +44,7 @@ export const buttonStyle = p => css`
   justify-content: center;
   align-content: center;
   white-space: nowrap;
-  &:hover {
+  &&&&:hover {
     background: ${theme.color[p.color].tint[2]};
   }
 `;

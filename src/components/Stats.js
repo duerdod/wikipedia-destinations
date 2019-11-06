@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { GameContext } from '../context/GameContext';
-import { PopupContext } from '../context/PopupContext';
 import theme from '../Theme';
 
 const OuterContainer = styled.section`

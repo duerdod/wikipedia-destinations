@@ -1,6 +1,6 @@
 import React, { useRef, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams, useLocation, Redirect } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
 import { GameContext } from '../context/GameContext';
@@ -85,7 +85,7 @@ const LoadingComponent = () => (
 const Article = () => {
   const { article } = useParams();
   const location = useLocation();
-  const { incrementSteps, isDestination, mergeCrumbs, crumbs } = useContext(
+  const { incrementSteps, isDestination, mergeCrumbs } = useContext(
     GameContext
   );
   const { loading, error, content, displaytitle } = useWikiFetch(article);

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useHistory, useLocation } from 'react-router-dom';
 import { GameContext } from '../context/GameContext';
 import theme from '../Theme';
-import useWikiFetch from '../hooks/useWikiFetch';
+// import useWikiFetch from '../hooks/useWikiFetch';
+import RandomArticle from './RandomArticle';
 import Error from './Error';
 
 const Form = styled.form`
@@ -21,6 +22,9 @@ const Form = styled.form`
     transition: all ${p => p.theme.transition};
     width: 100%;
     border-radius: 0;
+    display: flex;
+    align-content: center;
+    justify-content: center;
   }
   @media screen and (max-width: 40em) {
     display: block;
@@ -45,6 +49,10 @@ const Form = styled.form`
 const Input = styled.input`
   background: ${theme.color.white.hex};
   display: block;
+  && {
+    padding: 1rem 0.4rem;
+    font-size: 1rem;
+  }
 
   &:last-of-type {
     border-top: 1px solid #eeeeee;
@@ -74,7 +82,7 @@ const Button = styled.button`
   color: ${theme.color.blue.hex};
   cursor: pointer;
   &:hover {
-    background: #fbcea7;
+    background: ${theme.color.beige.tint[2]};
   }
 `;
 
@@ -100,16 +108,21 @@ function formReducer(state, action) {
 }
 
 const Start = () => {
-  const { setDestinations, initDestinations, checkValid } = useContext(
-    GameContext
-  );
+  const {
+    setDestinations,
+    initDestinations,
+    checkValid,
+    fetchRandomArticle
+  } = useContext(GameContext);
   const [raw, dispatch] = useReducer(formReducer, initDestinations);
   const [customError, setCustomError] = useState(false);
-  const location = useLocation();
+  const [randomArticle, setRandomArticle] = useState(null);
+  const { pathname } = useLocation();
   const { push } = useHistory();
   const { destination } = raw;
 
-  const { loading, error } = useWikiFetch(destination);
+  const mock = { loading: false, error: false };
+  const { loading, error } = mock; // useWikiFetch(destination);
 
   useEffect(() => {
     if (error && destination.length > 1) {
@@ -127,8 +140,14 @@ const Start = () => {
     });
   };
 
+  const handleRandomizer = async e => {
+    e.preventDefault();
+    const article = await fetchRandomArticle();
+    setRandomArticle(article);
+  };
+
   return (
-    showFormOn.includes(location.pathname) && (
+    showFormOn.includes(pathname) && (
       <>
         <Form disabled={loading || customError} onSubmit={handleSubmit}>
           <Input
@@ -136,6 +155,7 @@ const Start = () => {
             name="start"
             placeholder="Depature from"
             type="text"
+            value={raw.start}
             onChange={e => dispatch({ type: 'START', start: e.target.value })}
           />
           <Input
@@ -143,14 +163,31 @@ const Start = () => {
             name="destination"
             placeholder="Bound for"
             type="text"
+            value={raw.destination}
             onChange={e =>
               dispatch({ type: 'DESTINATION', destination: e.target.value })
             }
           />
-          <Button type="submit" disabled={loading || customError}>
-            Start
-          </Button>
+          {!checkValid(raw) ? (
+            <Button type="submit" disabled={loading || customError}>
+              Start
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              disabled={loading || customError}
+              onClick={handleRandomizer}
+            >
+              Random destination
+            </Button>
+          )}
         </Form>
+        <RandomArticle
+          show={randomArticle !== null}
+          setArticle={dispatch}
+          setRandomArticle={setRandomArticle}
+          {...randomArticle}
+        />
         {customError ? <Error title="No such destination :(" /> : null}
       </>
     )

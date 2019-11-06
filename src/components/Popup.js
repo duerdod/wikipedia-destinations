@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { useTransition, animated } from 'react-spring';
@@ -18,7 +18,7 @@ const PopupContainer = styled(animated.div)`
   position: absolute;
   z-index: 200;
   left: 50%;
-  top: 40%;
+  top: 50%;
   box-shadow: ${theme.boxShadow};
 `;
 

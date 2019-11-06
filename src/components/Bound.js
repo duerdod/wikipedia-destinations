@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import Popup from './Popup';
-import { GameContext } from '../context/GameContext';
+// import { GameContext } from '../context/GameContext';
 import { PopupContext } from '../context/PopupContext';
 
 const Bound = () => {
-  const { destinations } = useContext(GameContext);
+  // const { destinations } = useContext(GameContext);
   const { showPopup } = useContext(PopupContext);
 
   // console.log(destinations);

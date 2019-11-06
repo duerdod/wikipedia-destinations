@@ -14,7 +14,12 @@ const wikiFetchParams = title =>
     .map(param => `&${param}=${params(title)[param]}`)
     .join('');
 
-export const wikiFetchUrl = title =>
+const wikiFetchUrl = title =>
   `https://en.wikipedia.org/w/api.php?${wikiFetchParams(title)}`;
 
-//https://en.wikipedia.org/w/api.php?action=help&modules=parse
+const randomArticle = `https://en.wikipedia.org/api/rest_v1/page/random/summary`;
+
+export { params, wikiFetchParams, wikiFetchUrl, randomArticle };
+
+// Docs: https://en.wikipedia.org/api/rest_v1/#/Page%20content/get_page_random__format_
+// Docs: https://en.wikipedia.org/w/api.php?action=help&modules=parse
