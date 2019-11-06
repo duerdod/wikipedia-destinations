@@ -16,7 +16,7 @@ function GameProvider({ children }) {
 
   const { pathname } = useLocation();
   const { article } = useParams();
-  console.log(article);
+  // console.log(article);
 
   const incrementSteps = () => setStep(step => step + 1);
   const checkValid = obj => Object.keys(obj).some(key => obj[key].length < 1);

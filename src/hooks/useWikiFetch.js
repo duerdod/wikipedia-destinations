@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import sanitizeResponse from '../helpers/sanitizeResponse';
 import sanitizeHtml from '../helpers/sanitizeHtml';
+import { wikiFetchUrl } from '../config';
 
 function useWikiFetch(title) {
   const [wikiFetch, setWikiFetch] = useState({
@@ -8,9 +9,8 @@ function useWikiFetch(title) {
     loading: false
   });
 
-  // Clean up.
   useEffect(() => {
-    const finalUrl = `https://en.wikipedia.org/w/api.php?action=parse&origin=*&format=json&page=${title}&disabletoc=true&disableeditsection=true&disablestylededuplication=true&prop=text|displaytitle`;
+    const finalUrl = wikiFetchUrl(title);
     async function fetchData(url) {
       setWikiFetch({ loading: true });
       const res = await fetch(url, {
@@ -40,18 +40,4 @@ function useWikiFetch(title) {
   return { loading, pages, content, displaytitle, error };
 }
 
-//https://en.wikipedia.org/w/api.php?action=help&modules=parse
-
 export default useWikiFetch;
-
-// const params = {
-//   action: 'parse',
-//   origin: '*',
-//   format: 'json',
-//   page: title,
-//   disabletoc: true,
-//   disableeditsection: true,
-//   disablestylededuplication: true,
-// }
-
-// // &prop=text|displaytitle
