@@ -31,31 +31,33 @@ const InnerContainer = styled.div`
   border-radius: 3px;
 `;
 
-const Popup = ({ children }) => {
-  const { showPopup: show, setShowPopup } = useContext(PopupContext);
+const Popup = ({ children, id }) => {
+  const { popupId, hidePopup } = useContext(PopupContext);
 
-  const transition = useTransition(show, null, {
+  const transition = useTransition(id === popupId, null, {
     config: { duration: 75, tension: 300 },
     from: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
     enter: { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
     leave: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 }
   });
 
-  return createPortal(
-    <>
-      {transition.map(({ item, key, props }) => {
-        return (
-          item && (
-            <PopupContainer key={key} style={props}>
-              <InnerContainer>{children}</InnerContainer>
-            </PopupContainer>
-          )
-        );
-      })}
-      {show && <Backdrop onClick={setShowPopup} />}
-    </>,
-    document.getElementById('modalRoot')
-  );
+  return id === popupId
+    ? createPortal(
+        <>
+          {transition.map(({ item, key, props }) => {
+            return (
+              item && (
+                <PopupContainer key={key} style={props}>
+                  <InnerContainer>{children}</InnerContainer>
+                </PopupContainer>
+              )
+            );
+          })}
+          {id === popupId && <Backdrop onClick={hidePopup} />}
+        </>,
+        document.getElementById('modalRoot')
+      )
+    : null;
 };
 
 export default Popup;

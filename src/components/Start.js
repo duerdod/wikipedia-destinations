@@ -1,7 +1,7 @@
 import React, { useReducer, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory, useLocation } from 'react-router-dom';
-import { StatsContext } from './StatsProvider';
+import { GameContext } from '../context/GameContext';
 import theme from '../Theme';
 import useWikiFetch from '../hooks/useWikiFetch';
 import Error from './Error';
@@ -99,24 +99,21 @@ function formReducer(state, action) {
   }
 }
 
-const StartForm = () => {
+const Start = () => {
   const { setDestinations, initDestinations, checkValid } = useContext(
-    StatsContext
+    GameContext
   );
   const [raw, dispatch] = useReducer(formReducer, initDestinations);
   const [customError, setCustomError] = useState(false);
   const location = useLocation();
   const { push } = useHistory();
   const { destination } = raw;
-  const { error, loading } = useWikiFetch(
-    destination.length ? destination : ''
-  );
+
+  const { error, loading } = false;
 
   const handleSubmit = e => {
     e.preventDefault();
-
     if (!checkValid && error !== null) return false;
-
     const formattedInput = inputFormatter(raw.start);
     setDestinations(raw);
     push({
@@ -124,13 +121,7 @@ const StartForm = () => {
     });
   };
 
-  useEffect(() => {
-    setCustomError(
-      raw.destination.length > 1 && !loading && error && error.length > 0
-        ? true
-        : false
-    );
-  }, [error, loading, raw.destination.length]);
+  useEffect(() => {});
 
   return (
     showFormOn.includes(location.pathname) && (
@@ -162,4 +153,4 @@ const StartForm = () => {
   );
 };
 
-export default StartForm;
+export default Start;

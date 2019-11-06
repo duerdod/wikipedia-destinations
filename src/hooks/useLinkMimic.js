@@ -14,6 +14,7 @@ function useLinkMimic({
     if (ref.current) {
       const [displaytitle, article] = ref.current.children;
 
+      if (!article) return;
       if (!article.classList.contains(className)) {
         return;
       }
@@ -23,13 +24,9 @@ function useLinkMimic({
         link.addEventListener('click', e => {
           e.preventDefault();
           history.push({
-            pathname: link.pathname,
-            state: {
-              lastArticlePathname: displaytitle.innerText,
-              lastArticleTitle: displaytitle.innerText
-            }
+            pathname: link.pathname
           });
-          return fn ? fn() : null;
+          return fn ? fn(displaytitle.innerText) : null;
         })
       );
     }

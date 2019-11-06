@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { StatsContext } from './StatsProvider';
+import { GameContext } from '../context/GameContext';
 import { PopupContext } from '../context/PopupContext';
 import theme from '../Theme';
 import Popup from './Popup';
@@ -10,6 +10,7 @@ const OuterContainer = styled.section`
   text-align: center;
   position: relative;
   z-index: 1;
+  margin-top: 5rem;
 
   .outer {
     border-radius: 6px;
@@ -119,9 +120,9 @@ const Stats = () => {
   const {
     steps,
     destinations: { start, destination }
-  } = useContext(StatsContext);
+  } = useContext(GameContext);
 
-  const { setShowPopup } = useContext(PopupContext);
+  const { showPopup } = useContext(PopupContext);
 
   return (
     <OuterContainer>
@@ -139,10 +140,13 @@ const Stats = () => {
           <Destinations>{destination}</Destinations>
         </Destination>
       </InnerContainer>
-      <Popup>
+      <Popup id="settings">
         <Reset href="/">Restart</Reset>
       </Popup>
-      <Button onClick={setShowPopup} style={{ fontSize: '2rem' }}>
+      <Button
+        onClick={() => showPopup('settings')}
+        style={{ fontSize: '2rem' }}
+      >
         <span role="img" aria-label="settings">
           ⚙️
         </span>

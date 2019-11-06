@@ -1,11 +1,12 @@
 import React, { useRef, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams, Redirect, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Redirect } from 'react-router-dom';
 import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
-import { StatsContext } from './StatsProvider';
+import { GameContext } from '../context/GameContext';
 import theme from '../Theme';
 import Error from './Error';
+import Bound from './Bound';
 
 export const Container = styled.div`
   padding: 0 1rem;
@@ -71,19 +72,21 @@ const LoadingBox = styled.div`
   }
 `;
 
-const LoadingComponenet = () => (
+const LoadingComponent = () => (
   <>
     <LoadingBox />
     <LoadingBox className="text" />
   </>
 );
 
-const isDev = process.env.NODE_ENV === 'development';
+// const isDev = process.env.NODE_ENV === 'development';
 
 const Article = () => {
   const { article } = useParams();
   const location = useLocation();
-  const { incrementSteps, shouldRedirectToStart } = useContext(StatsContext);
+  const { incrementSteps, isDestination, mergeCrumbs, crumbs } = useContext(
+    GameContext
+  );
   const { loading, error, content, displaytitle } = useWikiFetch(article);
   const articleRef = useRef();
 
@@ -91,24 +94,20 @@ const Article = () => {
     ref: articleRef,
     className: 'fetched-article',
     loading,
-    fn: null
+    fn: mergeCrumbs
   });
 
   // eslint-disable-next-line
   useEffect(() => incrementSteps, [location.pathname]);
 
-  if (!isDev) {
-    if (shouldRedirectToStart) {
-      return <Redirect to="/" />;
-    }
-  }
-
   return (
     <Container ref={articleRef}>
       {loading ? (
-        <LoadingComponenet />
+        <LoadingComponent />
       ) : error ? (
         <Error title="Are you lost?" />
+      ) : isDestination ? (
+        <Bound />
       ) : (
         <>
           <Title>{displaytitle}</Title>

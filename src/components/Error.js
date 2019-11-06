@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import useWikiFetch from '../hooks/useWikiFetch';
 
 const ErrorMessage = styled.h2`
   text-align: center;
