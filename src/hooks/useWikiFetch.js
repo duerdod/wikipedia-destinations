@@ -44,8 +44,14 @@ function useWikiFetch(title) {
 
 export default useWikiFetch;
 
-const params = {
-  'action': 'parse'
-}
+// const params = {
+//   action: 'parse',
+//   origin: '*',
+//   format: 'json',
+//   page: title,
+//   disabletoc: true,
+//   disableeditsection: true,
+//   disablestylededuplication: true,
+// }
 
-action=parse&origin=*&format=json&page=${title}&disabletoc=true&disableeditsection=true&disablestylededuplication=true&prop=text|displaytitle
+// // &prop=text|displaytitle
