@@ -10,6 +10,7 @@ const PopupContext = createContext({
 function PopupProvider({ children }) {
   const [popupId, setPopupId] = useState('');
   const [hideWithBackdrop, setHideWithBackdrop] = useState(true);
+  const [scrolledDisabled, setDisableScroll] = useState(true);
 
   const showPopup = id => setPopupId(id);
   const hidePopup = () => setPopupId('');
@@ -23,7 +24,7 @@ function PopupProvider({ children }) {
     }
     const [body] = document.getElementsByTagName('body');
 
-    if (popupId) {
+    if (popupId && scrolledDisabled) {
       body.classList.add('popup-open');
       body.addEventListener('keydown', closeOnEsc);
     } else {
@@ -33,7 +34,7 @@ function PopupProvider({ children }) {
       body.classList.remove('popup-open');
       body.removeEventListener('keydown', closeOnEsc);
     };
-  }, [popupId]);
+  }, [popupId, scrolledDisabled]);
 
   return (
     <PopupContext.Provider
@@ -42,7 +43,8 @@ function PopupProvider({ children }) {
         showPopup,
         hidePopup,
         hideWithBackdrop,
-        setHideWithBackdrop
+        setHideWithBackdrop,
+        setDisableScroll
       }}
     >
       {children}

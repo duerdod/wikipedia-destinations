@@ -24,10 +24,13 @@ const PopupContainer = styled(animated.div)`
     left: 10%;
     right: 10%;
     top: 2%;
+    &.center {
+      top: 50%;
+    }
   }
 `;
 
-const Popup = ({ children, id, className, style }) => {
+const Popup = ({ children, id, className }) => {
   const { popupId, hidePopup, hideWithBackdrop } = useContext(PopupContext);
 
   const transition = useTransition(id === popupId, null, {

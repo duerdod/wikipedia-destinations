@@ -47,10 +47,18 @@ const RandomArticle = ({
   setArticle,
   setRandomArticle
 }) => {
-  const { showPopup, hidePopup, setHideWithBackdrop } = useContext(
-    PopupContext
-  );
-  setHideWithBackdrop(false);
+  const {
+    showPopup,
+    hidePopup,
+    setHideWithBackdrop,
+    setDisableScroll
+  } = useContext(PopupContext);
+
+  useEffect(() => {
+    setHideWithBackdrop(false);
+    setDisableScroll(false);
+  }, [setDisableScroll, setHideWithBackdrop]);
+
   useEffect(() => {
     if (show) {
       return showPopup('randomArticle');

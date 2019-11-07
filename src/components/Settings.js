@@ -60,7 +60,7 @@ const Reset = styled.a`
 const Settings = ({ className }) => {
   const { hidePopup } = useContext(PopupContext);
   return (
-    <Popup id="settings" style={{ top: '50%' }}>
+    <Popup id="settings" className="center">
       <InnerContainer>
         <Title>Options</Title>
         <Buttons>
