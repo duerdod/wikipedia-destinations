@@ -17,17 +17,16 @@ const Button = styled.button`
   margin-bottom: 1rem;
 `;
 
-const showSettingsOn = ['wiki'];
+const isArticle = new RegExp(/wiki/, 'g');
 
 const Header = () => {
   const { showPopup } = useContext(PopupContext);
   const { pathname } = useLocation();
-
   return (
     <HeaderContainer>
       {/* <Crumbs /> */}
       <Stats />
-      {showSettingsOn.includes(pathname) && (
+      {pathname.match(isArticle) && (
         <div className="buttons">
           <Button
             onClick={() => showPopup('settings')}

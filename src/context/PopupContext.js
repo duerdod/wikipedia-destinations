@@ -9,6 +9,7 @@ const PopupContext = createContext({
 
 function PopupProvider({ children }) {
   const [popupId, setPopupId] = useState('');
+  const [hideWithBackdrop, setHideWithBackdrop] = useState(true);
 
   const showPopup = id => setPopupId(id);
   const hidePopup = () => setPopupId('');
@@ -35,7 +36,15 @@ function PopupProvider({ children }) {
   }, [popupId]);
 
   return (
-    <PopupContext.Provider value={{ popupId, showPopup, hidePopup }}>
+    <PopupContext.Provider
+      value={{
+        popupId,
+        showPopup,
+        hidePopup,
+        hideWithBackdrop,
+        setHideWithBackdrop
+      }}
+    >
       {children}
     </PopupContext.Provider>
   );

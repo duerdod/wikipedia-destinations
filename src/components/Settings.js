@@ -57,10 +57,10 @@ const Reset = styled.a`
   ${buttonStyle};
 `;
 
-const Settings = () => {
+const Settings = ({ className }) => {
   const { hidePopup } = useContext(PopupContext);
   return (
-    <Popup id="settings">
+    <Popup id="settings" style={{ top: '50%' }}>
       <InnerContainer>
         <Title>Options</Title>
         <Buttons>

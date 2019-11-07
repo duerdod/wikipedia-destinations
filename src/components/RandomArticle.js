@@ -47,7 +47,10 @@ const RandomArticle = ({
   setArticle,
   setRandomArticle
 }) => {
-  const { showPopup, hidePopup } = useContext(PopupContext);
+  const { showPopup, hidePopup, setHideWithBackdrop } = useContext(
+    PopupContext
+  );
+  setHideWithBackdrop(false);
   useEffect(() => {
     if (show) {
       return showPopup('randomArticle');

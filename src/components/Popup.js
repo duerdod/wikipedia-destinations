@@ -20,16 +20,21 @@ const PopupContainer = styled(animated.div)`
   left: 50%;
   top: 50%;
   box-shadow: ${theme.boxShadow};
+  @media screen and (max-width: 40em) {
+    left: 10%;
+    right: 10%;
+    top: 2%;
+  }
 `;
 
-const Popup = ({ children, id }) => {
-  const { popupId, hidePopup } = useContext(PopupContext);
+const Popup = ({ children, id, className, style }) => {
+  const { popupId, hidePopup, hideWithBackdrop } = useContext(PopupContext);
 
   const transition = useTransition(id === popupId, null, {
     config: { duration: 75, tension: 300 },
-    from: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
-    enter: { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-    leave: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 }
+    from: { transform: 'scale(0)', opacity: 0 },
+    enter: { transform: 'scale(1)', opacity: 1 },
+    leave: { transform: 'scale(0)', opacity: 0 }
   });
 
   return id === popupId
@@ -38,13 +43,15 @@ const Popup = ({ children, id }) => {
           {transition.map(({ item, key, props }) => {
             return (
               item && (
-                <PopupContainer key={key} style={props}>
+                <PopupContainer className={className} key={key} style={props}>
                   {children}
                 </PopupContainer>
               )
             );
           })}
-          {id === popupId && <Backdrop onClick={hidePopup} />}
+          {id === popupId && (
+            <Backdrop onClick={hideWithBackdrop ? hidePopup : undefined} />
+          )}
         </>,
         document.getElementById('modalRoot')
       )
