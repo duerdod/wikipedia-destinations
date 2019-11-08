@@ -69,9 +69,9 @@ const Popup = ({
     const [body] = document.getElementsByTagName('body');
 
     if (popupId && preventBodyScroll) {
-      return body.classList.add('popup-open');
+      body.classList.add('popup-open');
     } else if (!preventBodyScroll) {
-      return body.classList.remove('popup-open');
+      body.classList.remove('popup-open');
     }
     return () => body.classList.remove('popup-open');
   }, [popupId, preventBodyScroll]);
