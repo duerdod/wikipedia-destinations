@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { useTransition, animated } from 'react-spring';
@@ -36,8 +36,14 @@ const PopupContainer = styled(animated.div)`
   }
 `;
 
-const Popup = ({ children, id, className }) => {
-  const { popupId, hidePopup, hideWithBackdrop } = useContext(PopupContext);
+const Popup = ({
+  children,
+  id,
+  className,
+  preventBodyScroll = true,
+  closeOnBackdropClick = true
+}) => {
+  const { popupId, hidePopup } = useContext(PopupContext);
 
   const transition = useTransition(id === popupId, null, {
     config: { duration: 75, tension: 300 },
@@ -45,6 +51,27 @@ const Popup = ({ children, id, className }) => {
     enter: { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
     leave: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 }
   });
+
+  useEffect(() => {
+    function closeOnEsc(e) {
+      if (e.key === 'Escape') {
+        return hidePopup();
+      }
+      return;
+    }
+    const [body] = document.getElementsByTagName('body');
+
+    if (popupId && preventBodyScroll) {
+      body.classList.add('popup-open');
+      body.addEventListener('keydown', closeOnEsc);
+    } else {
+      body.classList.remove('popup-open');
+    }
+    return () => {
+      body.classList.remove('popup-open');
+      body.removeEventListener('keydown', closeOnEsc);
+    };
+  }, [hidePopup, popupId, preventBodyScroll]);
 
   return id === popupId
     ? createPortal(
@@ -58,7 +85,9 @@ const Popup = ({ children, id, className }) => {
               )
             );
           })}
-          {id === popupId && <Backdrop onClick={hidePopup} />}
+          {id === popupId && (
+            <Backdrop onClick={closeOnBackdropClick && hidePopup} />
+          )}
         </>,
         document.getElementById('modalRoot')
       )

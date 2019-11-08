@@ -47,17 +47,7 @@ const RandomArticle = ({
   setArticle,
   setRandomArticle
 }) => {
-  const {
-    showPopup,
-    hidePopup,
-    setHideWithBackdrop,
-    setDisableScroll
-  } = useContext(PopupContext);
-
-  useEffect(() => {
-    setHideWithBackdrop(false);
-    setDisableScroll(false);
-  }, [setDisableScroll, setHideWithBackdrop]);
+  const { showPopup, hidePopup } = useContext(PopupContext);
 
   useEffect(() => {
     if (show) {
@@ -68,7 +58,11 @@ const RandomArticle = ({
   }, [show]);
 
   return (
-    <Popup id="randomArticle">
+    <Popup
+      id="randomArticle"
+      preventBodyScroll={false}
+      closeOnBackdropClick={false}
+    >
       <StyledInnerContainer>
         <h2>You got: {title}</h2>
         <h5>{description}</h5>
