@@ -43,7 +43,7 @@ const RandomArticle = ({
   description = '',
   title = '',
   extract = '',
-  source = null,
+  thumbnail = null,
   setArticle,
   setRandomArticle
 }) => {
@@ -66,7 +66,7 @@ const RandomArticle = ({
       <StyledInnerContainer>
         <h2>You got: {title}</h2>
         <h5>{description}</h5>
-        {<img src={source} alt={`Probably a ${title}`} />}
+        {<img src={thumbnail} alt={`Probably a ${title}`} />}
         <p>{extract}</p>
         <Button
           color="green"

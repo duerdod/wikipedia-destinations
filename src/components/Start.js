@@ -43,6 +43,9 @@ const Form = styled.form`
     border: 2px solid ${theme.color.red.hex};
     button {
     background: ${theme.color.red.hex};
+      &:hover {
+        background: ${theme.color.red.hex};
+      }
     }
   `}
 `;
@@ -75,6 +78,12 @@ const Input = styled.input`
   }
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  background: ${theme.color.beige.hex};
+`;
+
 const Button = styled.button`
   margin-top: -2px;
   text-transform: uppercase;
@@ -82,6 +91,8 @@ const Button = styled.button`
   background: ${theme.color.beige.hex};
   color: ${theme.color.blue.hex};
   cursor: pointer;
+  display: flex;
+  align-items: center;
   &:hover {
     background: ${theme.color.beige.tint[2]};
   }
@@ -132,8 +143,12 @@ const Start = () => {
 
   const handleBlur = async e => {
     e.preventDefault();
+    const { value } = e.target;
     setArticleState({ ...articleState, loading: true });
-    const { pageid } = await fetchArticle(e.target.value);
+    if (value.length < 1) {
+      return setArticleState({ error: false, loading: false });
+    }
+    const { pageid } = await fetchArticle(value);
     if (!pageid) {
       return setArticleState({ error: true, loading: false });
     }
@@ -144,6 +159,7 @@ const Start = () => {
     e.preventDefault();
     setArticleState({ ...articleState, loading: true });
     const article = await fetchArticle(null);
+    console.log(article);
     setRandomArticle(article);
     setArticleState({ ...articleState, loading: false });
   };
@@ -172,15 +188,15 @@ const Start = () => {
               dispatch({ type: 'DESTINATION', destination: e.target.value })
             }
           />
-          {!checkValid(raw) ? (
+          <ButtonContainer>
             <Button type="submit" disabled={loading || error}>
               Start
             </Button>
-          ) : (
+
             <Button type="button" onClick={handleRandomizer} disabled={loading}>
               Random destination
             </Button>
-          )}
+          </ButtonContainer>
         </Form>
         <RandomArticle
           show={randomArticle !== null}
