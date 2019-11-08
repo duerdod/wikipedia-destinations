@@ -45,29 +45,32 @@ const RandomArticle = ({
   extract = '',
   thumbnail = null,
   setArticle,
-  setRandomArticle
+  setArticleState,
+  articleState
 }) => {
-  const { showPopup, hidePopup } = useContext(PopupContext);
+  const { showPopup, hidePopup, popupId } = useContext(PopupContext);
 
   useEffect(() => {
     if (show) {
       return showPopup('randomArticle');
     }
-    return () => showPopup();
+    return () => setArticleState({ ...articleState, random: null });
     // eslint-disable-next-line
   }, [show]);
 
-  return (
+  return popupId === 'randomArticle' ? (
     <Popup
       id="randomArticle"
       preventBodyScroll={false}
       closeOnBackdropClick={false}
     >
       <StyledInnerContainer>
-        <h2>You got: {title}</h2>
+        <h2 className="you-got">You got:</h2>
+        <h2>{title}</h2>
         <h5>{description}</h5>
         {<img src={thumbnail} alt={`Probably a ${title}`} />}
         <p>{extract}</p>
+
         <Button
           color="green"
           type="button"
@@ -82,7 +85,7 @@ const RandomArticle = ({
           color="red"
           type="button"
           onClick={() => {
-            setRandomArticle(null);
+            setArticleState({ ...articleState, random: null });
             hidePopup();
           }}
         >
@@ -90,7 +93,7 @@ const RandomArticle = ({
         </Button>
       </StyledInnerContainer>
     </Popup>
-  );
+  ) : null;
 };
 
 export default RandomArticle;

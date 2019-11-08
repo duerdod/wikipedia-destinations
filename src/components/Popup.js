@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { useTransition, animated } from 'react-spring';
 import { PopupContext } from '../context/PopupContext';
-import theme from '../Theme';
+// import theme from '../Theme';
 
 const Backdrop = styled.div`
   position: absolute;
@@ -52,26 +52,30 @@ const Popup = ({
     leave: { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 }
   });
 
+  // console.log(id, preventBodyScroll);
+
   useEffect(() => {
+    const [body] = document.getElementsByTagName('body');
+    body.addEventListener('keydown', closeOnEsc);
     function closeOnEsc(e) {
       if (e.key === 'Escape') {
         return hidePopup();
       }
-      return;
+      return () => body.removeEventListener('keydown', closeOnEsc);
     }
+  }, [hidePopup]);
+
+  useEffect(() => {
     const [body] = document.getElementsByTagName('body');
 
     if (popupId && preventBodyScroll) {
-      body.classList.add('popup-open');
-      body.addEventListener('keydown', closeOnEsc);
-    } else {
-      body.classList.remove('popup-open');
+      return body.classList.add('popup-open');
+    } else if (!preventBodyScroll) {
+      return body.classList.remove('popup-open');
     }
-    return () => {
-      body.classList.remove('popup-open');
-      body.removeEventListener('keydown', closeOnEsc);
-    };
-  }, [hidePopup, popupId, preventBodyScroll]);
+    return () => body.classList.remove('popup-open');
+  }, [popupId, preventBodyScroll]);
+  // eslint-disable-next-line
 
   return id === popupId
     ? createPortal(
@@ -86,7 +90,7 @@ const Popup = ({
             );
           })}
           {id === popupId && (
-            <Backdrop onClick={closeOnBackdropClick && hidePopup} />
+            <Backdrop onClick={closeOnBackdropClick ? hidePopup : undefined} />
           )}
         </>,
         document.getElementById('modalRoot')

@@ -2,7 +2,6 @@ import React, { createContext, useState } from 'react';
 
 const PopupContext = createContext({
   popupId: '',
-  isOpen: Boolean,
   showPopup: () => {},
   hidePopup: () => {}
 });

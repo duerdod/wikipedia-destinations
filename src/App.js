@@ -7,6 +7,7 @@ import Article from './components/Article';
 import StartForm from './components/Start';
 import Header from './components/Header';
 import Settings from './components/Settings';
+import HowTo, { HowToOpener } from './components/HowTo';
 
 const Container = styled.section`
   background: inherit;
@@ -28,6 +29,8 @@ function App() {
             <Settings />
             <Route path={'/wiki/:article'} component={Article} />
             <Route path={'/'} component={StartForm} />
+            <HowTo />
+            <HowToOpener />
           </Container>
         </ThemeProvider>
       </AppProvider>

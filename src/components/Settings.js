@@ -23,7 +23,7 @@ const Title = styled.h2`
   text-transform: uppercase;
 `;
 
-const Buttons = styled.div`
+export const Buttons = styled.div`
   display: flex;
   justify-content: space-around;
 `;
@@ -33,7 +33,7 @@ export const buttonStyle = p => css`
   padding: 1rem 1.5rem;
   color: ${theme.color.blue.hex};
   font-family: ${theme.titleFont};
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: ${theme.color.white.hex};
   font-weight: 800;
   border-radius: 6px;
@@ -58,8 +58,8 @@ const Reset = styled.a`
 `;
 
 const Settings = () => {
-  const { hidePopup } = useContext(PopupContext);
-  return (
+  const { hidePopup, popupId } = useContext(PopupContext);
+  return popupId === 'settings' ? (
     <Popup id="settings" className="center">
       <InnerContainer>
         <Title>Options</Title>
@@ -73,7 +73,7 @@ const Settings = () => {
         </Buttons>
       </InnerContainer>
     </Popup>
-  );
+  ) : null;
 };
 
 export default Settings;

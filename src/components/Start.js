@@ -82,17 +82,18 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-around;
   background: ${theme.color.beige.hex};
+  border-radius: 6px 0 6px 6px;
 `;
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
   margin-top: -2px;
   text-transform: uppercase;
   font-weight: 800;
   background: ${theme.color.beige.hex};
   color: ${theme.color.blue.hex};
   cursor: pointer;
-  display: flex;
-  align-items: center;
   &:hover {
     background: ${theme.color.beige.tint[2]};
   }
@@ -122,14 +123,15 @@ const Start = () => {
   } = useContext(GameContext);
 
   const [raw, dispatch] = useReducer(formReducer, initDestinations);
-  const [randomArticle, setRandomArticle] = useState(null);
   const [articleState, setArticleState] = useState({
     loading: false,
-    error: false
+    error: false,
+    random: null,
+    askedFor: null
   });
   const { pathname } = useLocation();
   const { push } = useHistory();
-  const { loading, error } = articleState;
+  const { loading, error, random } = articleState;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -146,22 +148,20 @@ const Start = () => {
     const { value } = e.target;
     setArticleState({ ...articleState, loading: true });
     if (value.length < 1) {
-      return setArticleState({ error: false, loading: false });
+      return setArticleState({ ...articleState, error: false, loading: false });
     }
     const { pageid } = await fetchArticle(value);
     if (!pageid) {
-      return setArticleState({ error: true, loading: false });
+      return setArticleState({ ...articleState, error: true, loading: false });
     }
-    setArticleState({ error: false, loading: false });
+    setArticleState({ ...articleState, error: false, loading: false });
   };
 
   const handleRandomizer = async e => {
     e.preventDefault();
     setArticleState({ ...articleState, loading: true });
     const article = await fetchArticle(null);
-    console.log(article);
-    setRandomArticle(article);
-    setArticleState({ ...articleState, loading: false });
+    setArticleState({ ...articleState, loading: false, random: article });
   };
 
   return (
@@ -198,12 +198,16 @@ const Start = () => {
             </Button>
           </ButtonContainer>
         </Form>
-        <RandomArticle
-          show={randomArticle !== null}
-          setArticle={dispatch}
-          setRandomArticle={setRandomArticle}
-          {...randomArticle}
-        />
+        {random && random.title.length ? (
+          <RandomArticle
+            show={random !== null}
+            setArticle={dispatch}
+            setArticleState={setArticleState}
+            articleState={articleState}
+            {...random}
+          />
+        ) : null}
+
         {error ? <Error title="No such depature :(" /> : null}
       </>
     )
