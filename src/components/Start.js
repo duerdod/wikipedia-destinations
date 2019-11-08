@@ -6,7 +6,7 @@ import theme from '../Theme';
 // import useWikiFetch from '../hooks/useWikiFetch';
 import RandomArticle from './RandomArticle';
 import { inputFormatter } from '../helpers/formatInput';
-// import Error from './Error';
+import Error from './Error';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -37,8 +37,8 @@ const Form = styled.form`
     }
   }
 
-  ${({ disabled }) =>
-    disabled &&
+  ${({ error }) =>
+    error &&
     `
     border: 2px solid ${theme.color.red.hex};
     button {
@@ -107,13 +107,18 @@ const Start = () => {
     setDestinations,
     initDestinations,
     checkValid,
-    fetchRandomArticle
+    fetchArticle
   } = useContext(GameContext);
 
   const [raw, dispatch] = useReducer(formReducer, initDestinations);
   const [randomArticle, setRandomArticle] = useState(null);
+  const [articleState, setArticleState] = useState({
+    loading: false,
+    error: false
+  });
   const { pathname } = useLocation();
   const { push } = useHistory();
+  const { loading, error } = articleState;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -125,23 +130,37 @@ const Start = () => {
     });
   };
 
+  const handleBlur = async e => {
+    e.preventDefault();
+    setArticleState({ ...articleState, loading: true });
+    const { pageid } = await fetchArticle(e.target.value);
+    if (!pageid) {
+      return setArticleState({ error: true, loading: false });
+    }
+    setArticleState({ error: false, loading: false });
+  };
+
   const handleRandomizer = async e => {
     e.preventDefault();
-    const article = await fetchRandomArticle();
+    setArticleState({ ...articleState, loading: true });
+    const article = await fetchArticle(null);
     setRandomArticle(article);
+    setArticleState({ ...articleState, loading: false });
   };
 
   return (
     showFormOn.includes(pathname) && (
       <>
-        <Form onSubmit={handleSubmit}>
+        <Form error={loading || error} onSubmit={handleSubmit}>
           <Input
             required
             name="start"
             placeholder="Depature from"
             type="text"
             value={raw.start}
+            onBlur={handleBlur}
             onChange={e => dispatch({ type: 'START', start: e.target.value })}
+            error={error}
           />
           <Input
             required
@@ -154,9 +173,11 @@ const Start = () => {
             }
           />
           {!checkValid(raw) ? (
-            <Button type="submit">Start</Button>
+            <Button type="submit" disabled={loading || error}>
+              Start
+            </Button>
           ) : (
-            <Button type="button" onClick={handleRandomizer}>
+            <Button type="button" onClick={handleRandomizer} disabled={loading}>
               Random destination
             </Button>
           )}
@@ -167,7 +188,7 @@ const Start = () => {
           setRandomArticle={setRandomArticle}
           {...randomArticle}
         />
-        {/* {customError ? <Error title="No such destination :(" /> : null} */}
+        {error ? <Error title="No such depature :(" /> : null}
       </>
     )
   );

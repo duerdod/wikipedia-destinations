@@ -20,9 +20,10 @@ function GameProvider({ children }) {
   const incrementSteps = () => setStep(step => step + 1);
   const checkValid = obj => Object.keys(obj).some(key => obj[key].length < 1);
   const mergeCrumbs = title => setCrumbs([...crumbs, title]);
-  const fetchRandomArticle = async () => {
-    const randomArticle = await getWikiArticle();
-    return randomArticle;
+
+  const fetchArticle = async e => {
+    const article = await getWikiArticle(e);
+    return article;
   };
 
   useEffect(() => {
@@ -45,12 +46,12 @@ function GameProvider({ children }) {
         pathname,
         checkValid,
         mergeCrumbs,
+        fetchArticle,
         destinations,
         isDestination,
         incrementSteps,
         setDestinations,
-        initDestinations,
-        fetchRandomArticle
+        initDestinations
       }}
     >
       {children}
