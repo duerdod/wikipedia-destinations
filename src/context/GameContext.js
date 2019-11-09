@@ -27,7 +27,7 @@ function GameProvider({ children }) {
   };
 
   useEffect(() => {
-    // Hell of a work around until we've the article context working.
+    // Hell of a work around.
     const inDestination = pathname
       .replace('/wiki/', '')
       .replace(/(^|\s)([a-z])/g, (_, p1, p2) => p1 + p2.toUpperCase())

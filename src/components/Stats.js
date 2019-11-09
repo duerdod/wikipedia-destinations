@@ -93,7 +93,7 @@ const Step = styled.h2`
     display: block;
     content: 'Steps';
     font-size: 0.7rem;
-    color: ${theme.color.red.hex};
+    color: ${theme.color.blue.hex};
     position: absolute;
     bottom: 5px;
     left: 50%;
@@ -114,12 +114,12 @@ const Stats = () => {
       </div>
       <InnerContainer>
         <Destination>
-          <Destinations className="title">Depature</Destinations>
+          <Destinations className="title">Depature from</Destinations>
           <Destinations>{start}</Destinations>
         </Destination>
         <Step>{steps}</Step>
         <Destination>
-          <Destinations className="title">Bound</Destinations>
+          <Destinations className="title">Bound for</Destinations>
           <Destinations>{destination}</Destinations>
         </Destination>
       </InnerContainer>

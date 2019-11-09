@@ -59,7 +59,7 @@ const Popup = ({
     body.addEventListener('keydown', closeOnEsc);
     function closeOnEsc(e) {
       if (e.key === 'Escape') {
-        return hidePopup();
+        hidePopup();
       }
       return () => body.removeEventListener('keydown', closeOnEsc);
     }
@@ -67,11 +67,8 @@ const Popup = ({
 
   useEffect(() => {
     const [body] = document.getElementsByTagName('body');
-
     if (popupId && preventBodyScroll) {
       body.classList.add('popup-open');
-    } else if (!preventBodyScroll) {
-      body.classList.remove('popup-open');
     }
     return () => body.classList.remove('popup-open');
   }, [popupId, preventBodyScroll]);

@@ -201,7 +201,7 @@ const Start = () => {
         {random && random.title.length ? (
           <RandomArticle
             show={random !== null}
-            setArticle={dispatch}
+            dispatch={dispatch}
             setArticleState={setArticleState}
             articleState={articleState}
             {...random}

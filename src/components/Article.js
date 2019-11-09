@@ -6,7 +6,6 @@ import useLinkMimic from '../hooks/useLinkMimic';
 import { GameContext } from '../context/GameContext';
 import theme from '../Theme';
 import Error from './Error';
-import Bound from './Bound';
 
 export const Container = styled.div`
   padding: 0 1rem;
@@ -85,21 +84,23 @@ const LoadingComponent = () => (
 const Article = () => {
   const { article } = useParams();
   const location = useLocation();
-  const { incrementSteps, isDestination, mergeCrumbs } = useContext(
-    GameContext
-  );
+  const { incrementSteps, mergeCrumbs } = useContext(GameContext);
   const { loading, error, content, displaytitle } = useWikiFetch(article);
   const articleRef = useRef();
 
   useLinkMimic({
     ref: articleRef,
     className: 'fetched-article',
-    loading,
-    fn: mergeCrumbs
+    loading
   });
 
-  // eslint-disable-next-line
-  useEffect(() => incrementSteps, [location.pathname]);
+  useEffect(() => {
+    incrementSteps();
+    if (displaytitle) {
+      mergeCrumbs(displaytitle);
+    }
+    // eslint-disable-next-line
+  }, [location.pathname]);
 
   return (
     <Container ref={articleRef}>
@@ -107,8 +108,6 @@ const Article = () => {
         <LoadingComponent />
       ) : error ? (
         <Error title="Are you lost?" />
-      ) : isDestination ? (
-        <Bound />
       ) : (
         <>
           <Title>{displaytitle}</Title>

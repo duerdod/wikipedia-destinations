@@ -41,6 +41,7 @@ export const buttonStyle = p => css`
   margin: 0 0.5rem;
   cursor: pointer;
   display: flex;
+  width: 50%;
   justify-content: center;
   align-content: center;
   white-space: nowrap;

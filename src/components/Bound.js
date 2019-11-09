@@ -29,13 +29,14 @@ const Button = styled.button`
 */
 
 const Bound = () => {
-  const { crumbs } = useContext(GameContext);
+  const {
+    crumbs,
+    destinations: { destination }
+  } = useContext(GameContext);
   const { showPopup, popupId } = useContext(PopupContext);
 
-  // console.log(destinations);
   useEffect(() => {
     showPopup('winner');
-    return () => showPopup();
     // eslint-disable-next-line
   }, []);
 
@@ -43,12 +44,21 @@ const Bound = () => {
     popupId === 'winner' && (
       <Popup id="winner" preventBodyScroll={false}>
         <StyledInnerContainer>
-          <h2> 🎉 Congratulations 🎉</h2>
+          <h2>
+            <span role="img" aria-label="Congrats">
+              🎉
+            </span>
+            Congratulations
+            <span role="img" aria-label="Congrats">
+              🎉
+            </span>
+          </h2>
           <h3>Steps taken:</h3>
           <ol>
             {crumbs.map((crumb, i) => (
               <li key={i}>{crumb}</li>
             ))}
+            <li>{destination}</li>
           </ol>
           <Buttons>
             <Button color="green">Play again</Button>

@@ -29,10 +29,11 @@ const StyledInnerContainer = styled(InnerContainer)`
 `;
 
 const Button = styled.button`
+  ${buttonStyle}
   text-transform: uppercase;
   font-weight: 800;
-  ${buttonStyle}
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 0 0;
+  width: 100%;
   &:hover {
     background: ${theme.color.beige.tint[2]};
   }
@@ -44,7 +45,7 @@ const RandomArticle = ({
   title = '',
   extract = '',
   thumbnail = null,
-  setArticle,
+  dispatch,
   setArticleState,
   articleState
 }) => {
@@ -52,48 +53,49 @@ const RandomArticle = ({
 
   useEffect(() => {
     if (show) {
-      return showPopup('randomArticle');
+      showPopup('randomArticle');
     }
     return () => setArticleState({ ...articleState, random: null });
     // eslint-disable-next-line
   }, [show]);
 
-  return popupId === 'randomArticle' ? (
-    <Popup
-      id="randomArticle"
-      preventBodyScroll={false}
-      closeOnBackdropClick={false}
-    >
-      <StyledInnerContainer>
-        <h2 className="you-got">You got:</h2>
-        <h2>{title}</h2>
-        <h5>{description}</h5>
-        {<img src={thumbnail} alt={`Probably a ${title}`} />}
-        <p>{extract}</p>
+  return (
+    popupId === 'randomArticle' && (
+      <Popup
+        id="randomArticle"
+        preventBodyScroll={false}
+        closeOnBackdropClick={false}
+      >
+        <StyledInnerContainer>
+          <h2>{title}</h2>
+          <h5>{description}</h5>
+          {<img src={thumbnail} alt={`Probably a ${title}`} />}
+          <p>{extract}</p>
 
-        <Button
-          color="green"
-          type="button"
-          onClick={() => {
-            setArticle({ type: 'DESTINATION', destination: title });
-            hidePopup();
-          }}
-        >
-          Accept
-        </Button>
-        <Button
-          color="red"
-          type="button"
-          onClick={() => {
-            setArticleState({ ...articleState, random: null });
-            hidePopup();
-          }}
-        >
-          Decline
-        </Button>
-      </StyledInnerContainer>
-    </Popup>
-  ) : null;
+          <Button
+            color="green"
+            type="button"
+            onClick={() => {
+              dispatch({ type: 'DESTINATION', destination: title });
+              hidePopup();
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            color="red"
+            type="button"
+            onClick={() => {
+              setArticleState({ ...articleState, random: null });
+              hidePopup();
+            }}
+          >
+            Decline
+          </Button>
+        </StyledInnerContainer>
+      </Popup>
+    )
+  );
 };
 
 export default RandomArticle;

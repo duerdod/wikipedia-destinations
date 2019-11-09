@@ -1,13 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import theme, { Reset } from './Theme';
-import AppProvider from './context/contexts';
+import { GameContext } from './context/GameContext';
 import Article from './components/Article';
 import StartForm from './components/Start';
 import Header from './components/Header';
 import Settings from './components/Settings';
 import HowTo, { HowToOpener } from './components/HowTo';
+import Bound from './components/Bound';
 
 const Container = styled.section`
   background: inherit;
@@ -19,22 +20,20 @@ const Container = styled.section`
 `;
 
 function App() {
+  const { isDestination } = useContext(GameContext);
   return (
-    <Router>
-      <AppProvider>
-        <ThemeProvider theme={theme}>
-          <Reset />
-          <Container>
-            <Header />
-            <Settings />
-            <Route path={'/wiki/:article'} component={Article} />
-            <Route path={'/'} component={StartForm} />
-            <HowTo />
-            <HowToOpener />
-          </Container>
-        </ThemeProvider>
-      </AppProvider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Reset />
+      <Container>
+        <Header />
+        <Settings />
+        {isDestination ? <Bound /> : null}
+        <Route path={'/wiki/:article'} component={Article} />
+        <Route path={'/'} component={StartForm} />
+        <HowTo />
+        <HowToOpener />
+      </Container>
+    </ThemeProvider>
   );
 }
 

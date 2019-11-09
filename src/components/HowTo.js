@@ -73,7 +73,6 @@ export function HowToOpener() {
 
 const RandomArticle = () => {
   const { hidePopup, popupId } = useContext(PopupContext);
-  // eslint-disable-next-line
 
   return popupId === 'howTo' ? (
     <Popup id="howTo">
