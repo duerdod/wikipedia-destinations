@@ -45,6 +45,8 @@ const Button = styled.button`
   font-weight: 800;
   margin-top: 1rem;
   font-size: 1rem;
+  width: 100%;
+  margin: 0.5rem 0 0 0;
   &:hover {
     background: ${theme.color.beige.tint[1]};
   }

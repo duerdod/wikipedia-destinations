@@ -19,13 +19,18 @@ const Title = styled.h2`
   font-weight: 800;
   text-align: center;
   color: ${theme.color.blue.tint[2]};
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
   text-transform: uppercase;
 `;
 
 export const Buttons = styled.div`
   display: flex;
   justify-content: space-around;
+
+  button,
+  a {
+    margin: 0 0.5rem;
+  }
 `;
 
 export const buttonStyle = p => css`
@@ -38,7 +43,7 @@ export const buttonStyle = p => css`
   font-weight: 800;
   border-radius: 6px;
   transition: all ${theme.transition};
-  margin: 0 0.5rem;
+  margin: 0;
   cursor: pointer;
   display: flex;
   width: 50%;
