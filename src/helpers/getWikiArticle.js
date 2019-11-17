@@ -1,14 +1,13 @@
-import { randomArticle, wikiFetchUrl } from '../config';
+import { randomArticle, summaryArticle } from '../config';
 
 async function getWikiArticle(article = null) {
-  const url = article ? wikiFetchUrl(article) : randomArticle;
+  const url = article ? summaryArticle(article) : randomArticle;
   const res = await fetch(url);
   const data = await res.json();
-  const { description, title, extract, thumbnail, titles } = data;
-  if (data.parse && data.parse.pageid) {
-    return { pageid: data.parse.pageid };
-  }
+  const { pageid, description, title, extract, thumbnail, titles } = data;
+
   return {
+    pageid,
     description,
     title,
     extract,

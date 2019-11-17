@@ -1,57 +1,93 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import getWikiArticle from '../helpers/getWikiArticle';
+import React, { createContext, useState, useReducer, useEffect } from 'react';
 
 const GameContext = createContext();
 
-const initDestinations = {
-  start: '',
-  destination: ''
+const gameInit = {
+  usedRandomizer: false,
+  isStarted: false,
+  articles: {
+    start: null,
+    destination: null
+  },
+  inDestination: false,
+  currentPageId: 0,
+  steps: 0
 };
 
+function gameReducer(state, action) {
+  switch (action.type) {
+    case 'START_GAME':
+      return {
+        ...state,
+        usedRandomizer: action.usedRandomizer,
+        isStarted: action.isStarted,
+        articles: {
+          start: action.articles.start,
+          destination: action.articles.destination
+        },
+        inDestination: false
+      };
+    case 'INCREMENT_STEPS':
+      return {
+        ...state,
+        steps: state.steps + 1
+      };
+    case 'SET_CURRENT_ARTICLE':
+      return {
+        ...state,
+        currentPageId: action.pageid
+      };
+    case 'IN_DESTINATION':
+      return {
+        ...state,
+        inDestination: true
+      };
+    default:
+      return state;
+  }
+}
+
 function GameProvider({ children }) {
-  const [steps, setStep] = useState(0);
   const [crumbs, setCrumbs] = useState([]);
-  const [destinations, setDestinations] = useState(initDestinations);
-  const [isDestination, setIsDestination] = useState(false);
+  const [gameState, dispatch] = useReducer(gameReducer, gameInit);
 
-  const { pathname } = useLocation();
-
-  const incrementSteps = () => setStep(step => step + 1);
-  const checkValid = obj => Object.keys(obj).some(key => obj[key].length < 1);
   const mergeCrumbs = title => setCrumbs([...crumbs, title]);
+  const dispatcher = action => dispatch(action);
+  const startGame = action => dispatch(action);
+  const setCurrentPageid = action =>
+    dispatch({ type: 'SET_CURRENT_ARTICLE', pageid: action });
 
-  const fetchArticle = async e => {
-    const article = await getWikiArticle(e);
-    return article;
+  const incrementSteps = () =>
+    gameState.isStarted ? dispatch({ type: 'INCREMENT_STEPS' }) : false;
+
+  // UGH
+  const currentPageId = gameState.isStarted && gameState.currentPageId;
+  const setInDestination = () => {
+    if (gameState.currentPageId === gameState.articles.destination.pageid) {
+      return dispatch({ type: 'IN_DESTINATION' });
+    }
+    return;
   };
 
+  // UGH x2
   useEffect(() => {
-    // Hell of a work around.
-    const inDestination = pathname
-      .replace('/wiki/', '')
-      .replace(/(^|\s)([a-z])/g, (_, p1, p2) => p1 + p2.toUpperCase())
-      .replace('_', ' ');
-
-    if (inDestination === destinations.destination) {
-      return setIsDestination(true);
+    if (currentPageId) {
+      setInDestination();
     }
-  }, [pathname, destinations.destination]);
+    // eslint-disable-next-line
+  }, [currentPageId]);
 
   return (
     <GameContext.Provider
       value={{
-        steps,
         crumbs,
-        pathname,
-        checkValid,
+        startGame,
+        gameState,
+        dispatcher,
         mergeCrumbs,
-        fetchArticle,
-        destinations,
-        isDestination,
         incrementSteps,
-        setDestinations,
-        initDestinations
+        setInDestination,
+        setCurrentPageid
       }}
     >
       {children}

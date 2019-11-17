@@ -31,7 +31,7 @@ const Button = styled.button`
 const Bound = () => {
   const {
     crumbs,
-    destinations: { destination }
+    gameState: { articles }
   } = useContext(GameContext);
   const { showPopup, popupId } = useContext(PopupContext);
 
@@ -42,14 +42,15 @@ const Bound = () => {
 
   return (
     popupId === 'winner' && (
-      <Popup id="winner" preventBodyScroll={false}>
+      <Popup id="winner">
         <StyledInnerContainer>
           <h2>
             <span role="img" aria-label="Congrats">
-              🎉
+              🎉{' '}
             </span>
             Congratulations
             <span role="img" aria-label="Congrats">
+              {' '}
               🎉
             </span>
           </h2>
@@ -58,7 +59,7 @@ const Bound = () => {
             {crumbs.map((crumb, i) => (
               <li key={i}>{crumb}</li>
             ))}
-            <li>{destination}</li>
+            <li>{articles.destination.title}</li>
           </ol>
           <Buttons>
             <Button color="green">Play again</Button>

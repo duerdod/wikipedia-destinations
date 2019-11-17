@@ -160,13 +160,6 @@ export const Reset = createGlobalStyle`
     text-decoration: none;
     color: ${theme.black};
   }
-  /* Stupid. */
-  body.menu-open {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    overflow-y: hidden;
-  }
 `;
 
 export default theme;

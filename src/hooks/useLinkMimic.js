@@ -7,7 +7,7 @@ function useLinkMimic({
   loading = true,
   fn = null
 }) {
-  let history = useHistory();
+  const history = useHistory();
   const { article } = useParams();
 
   useEffect(() => {

@@ -37,7 +37,14 @@ function useWikiFetch(title) {
   const [displaytitle, , rawContent] = pages;
   const content = sanitizeHtml(rawContent ? rawContent['*'] : null);
 
-  return { loading, pages, content, displaytitle, error };
+  return {
+    loading,
+    pages,
+    content,
+    displaytitle,
+    error,
+    pageid: rawData && rawData.pageid
+  };
 }
 
 export default useWikiFetch;

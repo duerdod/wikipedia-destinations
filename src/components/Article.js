@@ -6,6 +6,7 @@ import useLinkMimic from '../hooks/useLinkMimic';
 import { GameContext } from '../context/GameContext';
 import theme from '../Theme';
 import Error from './Error';
+import Bound from './Bound';
 
 export const Container = styled.div`
   padding: 0 1rem;
@@ -83,9 +84,20 @@ const LoadingComponent = () => (
 
 const Article = () => {
   const { article } = useParams();
-  const location = useLocation();
-  const { incrementSteps, mergeCrumbs } = useContext(GameContext);
-  const { loading, error, content, displaytitle } = useWikiFetch(article);
+  const { pathname } = useLocation();
+
+  const {
+    incrementSteps,
+    mergeCrumbs,
+    setCurrentPageid,
+    setInDestination,
+    gameState: { inDestination }
+  } = useContext(GameContext);
+
+  const { loading, error, content, displaytitle, pageid } = useWikiFetch(
+    article
+  );
+
   const articleRef = useRef();
 
   useLinkMimic({
@@ -95,29 +107,38 @@ const Article = () => {
   });
 
   useEffect(() => {
+    setCurrentPageid(pageid);
+    // eslint-disable-next-line
+  }, [pageid]);
+
+  // Used for incrementing on back click.
+  useEffect(() => {
     incrementSteps();
     if (displaytitle) {
       mergeCrumbs(displaytitle);
     }
     // eslint-disable-next-line
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
-    <Container ref={articleRef}>
-      {loading ? (
-        <LoadingComponent />
-      ) : error ? (
-        <Error title="Are you lost?" />
-      ) : (
-        <>
-          <Title>{displaytitle}</Title>
-          <StyledArticle
-            className="fetched-article"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-        </>
-      )}
-    </Container>
+    <>
+      {inDestination ? <Bound /> : null}
+      <Container ref={articleRef}>
+        {loading ? (
+          <LoadingComponent />
+        ) : error ? (
+          <Error title="Are you lost?" />
+        ) : (
+          <>
+            <Title>{displaytitle}</Title>
+            <StyledArticle
+              className="fetched-article"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </>
+        )}
+      </Container>
+    </>
   );
 };
 

@@ -45,17 +45,14 @@ const RandomArticle = ({
   title = '',
   extract = '',
   thumbnail = null,
-  dispatch,
-  setArticleState,
-  articleState
+  resetDestination,
+  setAsDestination
 }) => {
   const { showPopup, hidePopup, popupId } = useContext(PopupContext);
-
+  console.log('why do I render? even');
   useEffect(() => {
-    if (show) {
-      showPopup('randomArticle');
-    }
-    return () => setArticleState({ ...articleState, random: null });
+    showPopup('randomArticle');
+    return () => resetDestination;
     // eslint-disable-next-line
   }, [show]);
 
@@ -76,7 +73,7 @@ const RandomArticle = ({
             color="green"
             type="button"
             onClick={() => {
-              dispatch({ type: 'DESTINATION', destination: title });
+              setAsDestination(title);
               hidePopup();
             }}
           >
@@ -86,7 +83,7 @@ const RandomArticle = ({
             color="red"
             type="button"
             onClick={() => {
-              setArticleState({ ...articleState, random: null });
+              resetDestination();
               hidePopup();
             }}
           >

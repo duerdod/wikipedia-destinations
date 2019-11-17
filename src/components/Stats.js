@@ -103,9 +103,10 @@ const Step = styled.h2`
 
 const Stats = () => {
   const {
-    steps,
-    destinations: { start, destination }
+    gameState: { articles, steps }
   } = useContext(GameContext);
+
+  const { start, destination } = articles;
 
   return (
     <OuterContainer>
@@ -115,12 +116,12 @@ const Stats = () => {
       <InnerContainer>
         <Destination>
           <Destinations className="title">Depature from</Destinations>
-          <Destinations>{start}</Destinations>
+          <Destinations>{start && start.title}</Destinations>
         </Destination>
         <Step>{steps}</Step>
         <Destination>
           <Destinations className="title">Bound for</Destinations>
-          <Destinations>{destination}</Destinations>
+          <Destinations>{destination && destination.title}</Destinations>
         </Destination>
       </InnerContainer>
     </OuterContainer>

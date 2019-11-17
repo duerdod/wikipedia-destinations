@@ -11,7 +11,7 @@ const Backdrop = styled.div`
   width: 100%;
   z-index: 100;
   background: black;
-  opacity: 0.3;
+  opacity: 0;
 `;
 
 const PopupContainer = styled(animated.div)`
