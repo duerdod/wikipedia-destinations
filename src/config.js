@@ -3,9 +3,10 @@ const params = title => ({
   origin: '*',
   format: 'json',
   page: title,
-  disabletoc: true,
+  // disabletoc: true,
   disableeditsection: true,
   disablestylededuplication: true,
+  redirects: true,
   prop: 'text|displaytitle'
 });
 
@@ -19,7 +20,7 @@ const wikiFetchUrl = title =>
 
 const randomArticle = `https://en.wikipedia.org/api/rest_v1/page/random/summary`;
 const summaryArticle = title =>
-  `https://en.wikipedia.org/api/rest_v1/page/summary/${title}?redirect=true`;
+  `https://en.wikipedia.org/api/rest_v1/page/summary/${title}`;
 
 export { params, wikiFetchParams, wikiFetchUrl, randomArticle, summaryArticle };
 

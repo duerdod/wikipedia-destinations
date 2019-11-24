@@ -115,7 +115,7 @@ const Stats = () => {
       </div>
       <InnerContainer>
         <Destination>
-          <Destinations className="title">Depature from</Destinations>
+          <Destinations className="title">Depature</Destinations>
           <Destinations>{start && start.title}</Destinations>
         </Destination>
         <Step>{steps}</Step>

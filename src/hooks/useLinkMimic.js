@@ -12,7 +12,7 @@ function useLinkMimic({
 
   useEffect(() => {
     if (ref.current) {
-      const [displaytitle, article] = ref.current.children;
+      const [displaytitle, , article] = ref.current.children;
 
       if (!article) return;
       if (!article.classList.contains(className)) {
@@ -23,8 +23,10 @@ function useLinkMimic({
       links.forEach(link =>
         link.addEventListener('click', e => {
           e.preventDefault();
+          const hash = link.getAttribute('href');
           history.push({
-            pathname: link.pathname
+            pathname: link.pathname,
+            hash: hash.startsWith('#') ? hash : ''
           });
           return fn ? fn(displaytitle.innerText) : null;
         })
@@ -34,3 +36,5 @@ function useLinkMimic({
 }
 
 export default useLinkMimic;
+
+// startsWith('#')

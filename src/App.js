@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import theme, { Reset } from './Theme';
-import { GameContext } from './context/GameContext';
 import Article from './components/Article';
-// import StartForm from './components/Start';
 import StartForm from './components/StartForm';
 import Header from './components/Header';
 import Settings from './components/Settings';

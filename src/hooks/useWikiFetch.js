@@ -34,7 +34,7 @@ function useWikiFetch(title) {
   const error = data && data.error ? data.error.code : null;
   const rawData = data && data.parse;
   const pages = sanitizeResponse(loading ? {} : rawData);
-  const [displaytitle, , rawContent] = pages;
+  const [displaytitle, , , rawContent] = pages;
   const content = sanitizeHtml(rawContent ? rawContent['*'] : null);
 
   return {

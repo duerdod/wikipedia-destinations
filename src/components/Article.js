@@ -1,15 +1,17 @@
-import React, { useRef, useContext, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useRef, useContext, useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
 import { useParams, useLocation } from 'react-router-dom';
 import useWikiFetch from '../hooks/useWikiFetch';
 import useLinkMimic from '../hooks/useLinkMimic';
+import useAnchorScroll from '../hooks/useAnchorScroll';
 import { GameContext } from '../context/GameContext';
 import theme from '../Theme';
 import Error from './Error';
 import Bound from './Bound';
+import TableOfContents from './TableOfContents';
 
 export const Container = styled.div`
-  padding: 0 1rem;
+  padding: 0 1.7rem;
   max-width: 650px;
   margin: 0 auto;
   font-family: sans-serif;
@@ -21,6 +23,19 @@ const Title = styled.h1`
   font-family: ${theme.titleFont};
   color: ${theme.color.beige.hex};
   font-weight: 800;
+`;
+
+const TOC = css`
+  &&& #toc {
+    /* position: absolute; */
+
+    ul {
+      margin: 0;
+      li {
+        list-style: none;
+      }
+    }
+  }
 `;
 
 const StyledArticle = styled.div`
@@ -60,6 +75,7 @@ const StyledArticle = styled.div`
       list-style: disc;
     }
   }
+  ${TOC}
 `;
 
 const LoadingBox = styled.div`
@@ -85,12 +101,13 @@ const LoadingComponent = () => (
 const Article = () => {
   const { article } = useParams();
   const { pathname } = useLocation();
+  const [tocNode, setTocNode] = useState(null);
+  const articleRef = useRef();
 
   const {
     incrementSteps,
     mergeCrumbs,
     setCurrentPageid,
-    setInDestination,
     gameState: { inDestination }
   } = useContext(GameContext);
 
@@ -98,17 +115,25 @@ const Article = () => {
     article
   );
 
-  const articleRef = useRef();
-
   useLinkMimic({
     ref: articleRef,
     className: 'fetched-article',
     loading
   });
 
+  useAnchorScroll();
+
   useEffect(() => {
     setCurrentPageid(pageid);
     // eslint-disable-next-line
+  }, [pageid]);
+
+  useEffect(() => {
+    const TOC = document.getElementById('toc');
+    if (TOC) {
+      setTocNode(TOC);
+      TOC.remove();
+    }
   }, [pageid]);
 
   // Used for incrementing on back click.
@@ -130,6 +155,7 @@ const Article = () => {
           <Error title="Are you lost?" />
         ) : (
           <>
+            {/* <TableOfContents contents={tocNode} /> */}
             <Title>{displaytitle}</Title>
             <StyledArticle
               className="fetched-article"

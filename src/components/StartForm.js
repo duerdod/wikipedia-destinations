@@ -5,7 +5,6 @@ import { GameContext } from '../context/GameContext';
 import theme from '../Theme';
 import getWikiArticle from '../helpers/getWikiArticle';
 import RandomArticle from './RandomArticle';
-import { inputFormatter } from '../helpers/formatInput';
 import Error from './Error';
 
 const Form = styled.form`
@@ -55,6 +54,7 @@ const Form = styled.form`
     border: 2px solid ${theme.color.blue.tint[7]};
     button {
     background: ${theme.color.blue.tint[7]};
+    color: white;
       &:hover {
         background: ${theme.color.blue.hex};
       }
@@ -161,13 +161,11 @@ const StartForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-
     const startArticle = await fetchArticle(start);
     const destiantionArticle = await fetchArticle(destination);
 
     startGame({
       type: 'START_GAME',
-      startTitle: start,
       isStarted: true,
       usedRandomizer: randomized,
       articles: {
