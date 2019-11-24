@@ -12,7 +12,7 @@ function useLinkMimic({
 
   useEffect(() => {
     if (ref.current) {
-      const [displaytitle, , article] = ref.current.children;
+      const [displaytitle, article] = ref.current.children;
 
       if (!article) return;
       if (!article.classList.contains(className)) {
