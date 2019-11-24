@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
-import styled, { css } from 'styled-components';
-import theme from '../Theme';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+// import theme from '../Theme';
 
 import sanitizeTOC from '../helpers/sanitizeTOC';
-import { animated, useTransition } from 'react-spring';
+// import { animated, useTransition } from 'react-spring';
 
 const Container = styled.ul`
   position: fixed;

@@ -55,7 +55,7 @@ export const buttonStyle = p => css`
   }
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   ${buttonStyle};
 `;
 

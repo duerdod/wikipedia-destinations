@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { GameContext } from '../context/GameContext';
+import { PopupContext } from '../context/PopupContext';
 import theme from '../Theme';
+import ReminderPopup from './ReminderPopup';
 
 const OuterContainer = styled.section`
   text-transform: uppercase;
@@ -52,7 +54,8 @@ const InnerContainer = styled.div`
   position: relative; */
 
   h2,
-  h3 {
+  h3,
+  button {
     font-family: ${theme.titleFont};
     text-transform: uppercase;
     font-weight: 800;
@@ -72,6 +75,13 @@ const Destinations = styled.h3`
   padding: 0 1rem;
   color: ${theme.color.blue.hex};
   white-space: pre-wrap;
+  button {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+    color: ${theme.color.blue.hex};
+    white-space: pre-wrap;
+    cursor: pointer;
+  }
   &.title {
     color: ${theme.color.red.hex};
   }
@@ -106,8 +116,9 @@ const Stats = () => {
     gameState: { articles, steps }
   } = useContext(GameContext);
 
-  const { start, destination } = articles;
+  const { showPopup } = useContext(PopupContext);
 
+  const { start, destination } = articles;
   return (
     <OuterContainer>
       <div className="outer">
@@ -121,7 +132,14 @@ const Stats = () => {
         <Step>{steps}</Step>
         <Destination>
           <Destinations className="title">Bound for</Destinations>
-          <Destinations>{destination && destination.title}</Destinations>
+          <Destinations>
+            <button onClick={() => showPopup('reminder')}>
+              {destination && destination.title}
+            </button>
+          </Destinations>
+          {articles.destination && (
+            <ReminderPopup article={articles.destination} />
+          )}
         </Destination>
       </InnerContainer>
     </OuterContainer>

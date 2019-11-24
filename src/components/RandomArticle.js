@@ -5,7 +5,7 @@ import theme from '../Theme';
 import Popup from './Popup';
 import { buttonStyle, InnerContainer } from './Settings';
 
-const StyledInnerContainer = styled(InnerContainer)`
+export const StyledInnerContainer = styled(InnerContainer)`
   p {
     margin: 0.5em 0;
     line-height: 1.6;
@@ -49,7 +49,7 @@ const RandomArticle = ({
   setAsDestination
 }) => {
   const { showPopup, hidePopup, popupId } = useContext(PopupContext);
-  console.log('why do I render? even');
+
   useEffect(() => {
     showPopup('randomArticle');
     return () => resetDestination;

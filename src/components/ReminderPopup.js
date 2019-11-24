@@ -1,16 +1,19 @@
 import React, { useContext } from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import { PopupContext } from '../context/PopupContext';
-import { ArticleContext } from '../context/ArticleContext';
-// import theme from '../Theme';
 import Popup from './Popup';
-import { Button, StyledInnerContainer } from './RandomArticle';
+import { Button as ThemeButton } from './Settings';
+import { StyledInnerContainer as InnerContainer } from './RandomArticle';
 
-const ArticleReminder = () => {
+const Button = styled(ThemeButton)`
+  margin-top: 1rem;
+  width: 100%;
+`;
+
+const ArticleReminder = ({
+  article: { title = '', description = '', thumbnail = '', extract = '' }
+}) => {
   const { hidePopup, popupId } = useContext(PopupContext);
-  const {
-    articleState //: { title, description, thumbnail, extract }
-  } = useContext(ArticleContext);
 
   return (
     popupId === 'reminder' && (
@@ -19,15 +22,15 @@ const ArticleReminder = () => {
         preventBodyScroll={false}
         closeOnBackdropClick={false}
       >
-        <StyledInnerContainer>
-          {/* <h2>{title}</h2>
+        <InnerContainer>
+          <h2>{title}</h2>
           <h5>{description}</h5>
           {<img src={thumbnail} alt={`Probably a ${title}`} />}
-          <p>{extract}</p> */}
+          <p>{extract}</p>
           <Button color="green" type="button" onClick={hidePopup}>
             Continue
           </Button>
-        </StyledInnerContainer>
+        </InnerContainer>
       </Popup>
     )
   );

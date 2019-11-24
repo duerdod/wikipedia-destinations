@@ -7,11 +7,11 @@ import { PopupContext } from '../context/PopupContext';
 
 const Backdrop = styled.div`
   position: absolute;
-  height: 100%;
+  height: 120%;
   width: 100%;
   z-index: 100;
   background: black;
-  opacity: 0;
+  opacity: 0.2;
 `;
 
 const PopupContainer = styled(animated.div)`
@@ -23,6 +23,15 @@ const PopupContainer = styled(animated.div)`
   padding: 16px;
   top: 50%;
   left: 50%;
+  &::after {
+    position: absolute;
+    height: 120%;
+    width: 100%;
+    z-index: 100;
+    background: black;
+    opacity: 0.2;
+  }
+
   @media screen and (max-width: 40em) {
     left: 0%;
     right: 0%;

@@ -1,6 +1,9 @@
 import React, { createContext, useState, useReducer, useEffect } from 'react';
+import { mock } from './gameContextMock';
 
 const GameContext = createContext();
+
+const useMock = process.env.NODE_ENV === 'development';
 
 const gameInit = {
   usedRandomizer: false,
@@ -49,7 +52,10 @@ function gameReducer(state, action) {
 
 function GameProvider({ children }) {
   const [crumbs, setCrumbs] = useState([]);
-  const [gameState, dispatch] = useReducer(gameReducer, gameInit);
+  const [gameState, dispatch] = useReducer(
+    gameReducer,
+    useMock ? mock : gameInit
+  );
 
   const mergeCrumbs = title => setCrumbs([...crumbs, title]);
   const dispatcher = action => dispatch(action);
@@ -68,7 +74,6 @@ function GameProvider({ children }) {
     }
     return;
   };
-
   // UGH x2
   useEffect(() => {
     if (currentPageId) {
