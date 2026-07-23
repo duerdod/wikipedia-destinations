@@ -1,0 +1,158 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens ported from the old Theme.js. The colour scales keep the same
+ * indexing as the original tint arrays, so `blue-0` is the base hue and higher
+ * numbers are lighter — e.g. a button hover uses `-2`.
+ */
+@theme {
+  --font-title: 'Open Sans', 'Arial Black', sans-serif;
+  --font-sans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #f7f7f7;
+  --color-ink: #042f4b;
+
+  --color-blue-0: #042f4b;
+  --color-blue-1: #1d445d;
+  --color-blue-2: #36596f;
+  --color-blue-3: #4f6d81;
+  --color-blue-4: #688293;
+  --color-blue-5: #8297a5;
+  --color-blue-6: #9bacb7;
+  --color-blue-7: #b4c1c9;
+  --color-blue-8: #cdd5db;
+  --color-blue-9: #e6eaed;
+  --color-blue-10: #ffffff;
+
+  --color-red-0: #ed1250;
+  --color-red-1: #ef2a62;
+  --color-red-2: #f14173;
+  --color-red-3: #f25985;
+  --color-red-4: #f47196;
+  --color-red-5: #f689a8;
+  --color-red-6: #f8a0b9;
+  --color-red-7: #fab8cb;
+  --color-red-8: #fbd0dc;
+  --color-red-9: #fde7ee;
+  --color-red-10: #ffffff;
+
+  --color-beige-0: #fbc99d;
+  --color-beige-1: #fbcea7;
+  --color-beige-2: #fcd4b1;
+  --color-beige-3: #fcd9ba;
+  --color-beige-4: #fddfc4;
+  --color-beige-5: #fde4ce;
+  --color-beige-6: #fde9d8;
+  --color-beige-7: #feefe2;
+  --color-beige-8: #fef4eb;
+  --color-beige-9: #fffaf5;
+  --color-beige-10: #ffffff;
+
+  --color-green-0: #3c9d9b;
+  --color-green-1: #50a7a5;
+  --color-green-2: #63b1af;
+  --color-green-3: #77bab9;
+  --color-green-4: #8ac4c3;
+  --color-green-5: #9ececd;
+  --color-green-6: #b1d8d7;
+  --color-green-7: #c5e2e1;
+  --color-green-8: #d8ebeb;
+  --color-green-9: #ecf5f5;
+  --color-green-10: #ffffff;
+}
+
+@layer base {
+  html {
+    text-rendering: optimizeLegibility;
+    font-size: 14px;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--color-blue-0);
+    background-attachment: fixed;
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Locked while a modal is open. */
+  body.popup-open {
+    overflow: hidden;
+  }
+
+  #modalRoot {
+    overflow: hidden;
+  }
+
+  /* Coarse pointers: keep inputs at 16px so mobile Safari doesn't zoom. */
+  @media (pointer: coarse) {
+    input,
+    textarea {
+      font-size: 16px;
+    }
+  }
+}
+
+/*
+ * Styling for the article HTML we inject from Wikipedia. It can't carry utility
+ * classes, so it's styled by descending from `.fetched-article`.
+ */
+@layer components {
+  .fetched-article {
+    overflow-wrap: break-word;
+    background: #fff;
+    color: var(--color-ink);
+    padding: 1.5rem 2rem;
+    border-radius: 6px;
+  }
+
+  .fetched-article p {
+    margin: 0.5em 0;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+
+  .fetched-article a {
+    color: var(--color-red-0);
+  }
+
+  .fetched-article a:hover {
+    text-decoration: underline;
+  }
+
+  .fetched-article h1,
+  .fetched-article h2 {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-ink);
+  }
+
+  .fetched-article h3,
+  .fetched-article h4 {
+    font-family: var(--font-title);
+    line-height: 1.6;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-ink);
+  }
+
+  .fetched-article ul,
+  .fetched-article ol {
+    margin: 1rem;
+  }
+
+  .fetched-article li {
+    margin-bottom: 0.5rem;
+    list-style: disc;
+  }
+
+  .fetched-article img {
+    max-width: 100%;
+    height: auto;
+  }
+}
