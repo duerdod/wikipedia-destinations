@@ -33,6 +33,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         isStarted: action.isStarted,
         articles: action.articles,
         inDestination: false,
+        steps: 0,
       };
     case 'INCREMENT_STEPS':
       return { ...state, steps: state.steps + 1 };
@@ -61,7 +62,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [gameState, dispatch] = useReducer(gameReducer, import.meta.env.DEV ? mock : gameInit);
 
   const mergeCrumbs = (title: string) => setCrumbs((prev) => [...prev, title]);
-  const startGame = (action: Extract<GameAction, { type: 'START_GAME' }>) => dispatch(action);
+  const startGame = (action: Extract<GameAction, { type: 'START_GAME' }>) => {
+    setCrumbs([]); // fresh game, fresh trail
+    dispatch(action);
+  };
   const setCurrentPageid = (pageid: number) => dispatch({ type: 'SET_CURRENT_ARTICLE', pageid });
   const incrementSteps = () => {
     if (gameState.isStarted) dispatch({ type: 'INCREMENT_STEPS' });

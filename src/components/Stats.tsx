@@ -27,7 +27,7 @@ export default function Stats() {
       {/* "Yo scores" tab overlapping the top of the board */}
       <div className="absolute left-1/2 top-[-22px] z-[2] -translate-x-1/2 rounded-md p-[3px_3px_0_3px] text-ink bg-[linear-gradient(to_bottom,#ed1250_51%,#ed1250_71%,#f7f7f7_72%,#f7f7f7_100%)]">
         <div className="rounded-[3px] bg-paper px-3 pt-[0.2rem] font-title text-2xl font-extrabold">
-          Yo scores
+          Score
         </div>
       </div>
 

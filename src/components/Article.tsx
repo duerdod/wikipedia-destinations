@@ -9,12 +9,18 @@ import Bound from './Bound';
 import DisambiguationPopup from './DisambiguationPopup';
 import Error from './Error';
 
+const SKELETON_LINES = ['w-full', 'w-11/12', 'w-full', 'w-5/6', 'w-full', 'w-full', 'w-2/3', 'w-full', 'w-4/5'];
+
 function LoadingSkeleton() {
   return (
-    <>
-      <div className="my-4 h-12 w-2/5 bg-[#042a44]" />
-      <div className="my-4 h-80 w-full bg-[#042a44]" />
-    </>
+    <div className="rounded-[6px] bg-white px-8 py-6 max-sm:px-4" aria-busy="true" aria-label="Loading article">
+      <div className="skeleton mb-6 h-8 w-1/2" />
+      <div className="space-y-3">
+        {SKELETON_LINES.map((w, i) => (
+          <div key={i} className={`skeleton h-4 ${w}`} />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -77,7 +83,7 @@ export default function Article() {
   return (
     <>
       {inDestination && <Bound />}
-      <div className="mx-auto max-w-[850px] px-7">
+      <div className="mx-auto max-w-[960px] px-7 max-sm:px-1">
         {loading ? (
           <LoadingSkeleton />
         ) : error ? (

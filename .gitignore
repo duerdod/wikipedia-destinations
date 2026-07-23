@@ -16,6 +16,9 @@
 .wrangler
 .dev.vars
 
+# local working notes
+PROJECT_LOG.md
+
 # misc
 .DS_Store
 .env.local

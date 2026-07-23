@@ -7,7 +7,10 @@ import { parseDisambiguation, type DisambigOption } from '../lib/disambiguation'
 import type { WikiSummary } from '../lib/types';
 import DisambiguationPopup from './DisambiguationPopup';
 import RandomArticle from './RandomArticle';
-import Error from './Error';
+import Popup from './Popup';
+import { Button, Card } from './ui';
+
+type Field = 'departure' | 'destination';
 
 interface FormState {
   start: string;
@@ -17,13 +20,15 @@ interface FormState {
   loading: boolean;
   error: boolean;
   disambigOptions: DisambigOption[];
+  notFound: Field | null;
 }
 
 type FormAction =
   | { type: 'start'; start: string }
   | { type: 'destination'; destination?: string; randomized?: boolean; randomArticle?: WikiSummary | null }
   | { type: 'status'; loading?: boolean; error?: boolean }
-  | { type: 'disambig'; options: DisambigOption[] };
+  | { type: 'disambig'; options: DisambigOption[] }
+  | { type: 'notfound'; which: Field };
 
 const formInit: FormState = {
   start: '',
@@ -33,6 +38,7 @@ const formInit: FormState = {
   loading: false,
   error: false,
   disambigOptions: [],
+  notFound: null,
 };
 
 function formReducer(state: FormState, action: FormAction): FormState {
@@ -47,9 +53,11 @@ function formReducer(state: FormState, action: FormAction): FormState {
         randomArticle: action.randomArticle ?? null,
       };
     case 'status':
-      return { ...state, loading: action.loading ?? false, error: action.error ?? false };
+      return { ...state, loading: action.loading ?? false, error: action.error ?? false, notFound: null };
     case 'disambig':
       return { ...state, disambigOptions: action.options };
+    case 'notfound':
+      return { ...state, loading: false, error: true, notFound: action.which };
     default:
       return state;
   }
@@ -70,7 +78,8 @@ export default function StartForm() {
   const { startGame } = useGame();
   const { showPopup, hidePopup } = usePopup();
   const navigate = useNavigate();
-  const { start, destination, randomArticle, randomized, error, loading, disambigOptions } = form;
+  const { start, destination, randomArticle, randomized, error, loading, disambigOptions, notFound } =
+    form;
 
   // Actually start the game with a specific (non-ambiguous) departure article.
   const beginGame = async (startTitle: string, path: string) => {
@@ -91,14 +100,20 @@ export default function StartForm() {
     e.preventDefault();
     dispatch({ type: 'status', loading: true });
 
-    const summary = await getSummary(start);
-    if (!summary.pageid) {
-      dispatch({ type: 'status', error: true });
+    const [startSummary, destSummary] = await Promise.all([
+      getSummary(start),
+      getSummary(destination),
+    ]);
+
+    // Either endpoint missing → tell the player which one, in a popup.
+    if (!startSummary.pageid || !destSummary.pageid) {
+      dispatch({ type: 'notfound', which: !startSummary.pageid ? 'departure' : 'destination' });
+      showPopup('notfound');
       return;
     }
 
     // An ambiguous departure: let the player pick a meaning before starting.
-    if (summary.type === 'disambiguation') {
+    if (startSummary.type === 'disambiguation') {
       const { html } = await getArticle(start);
       const options = parseDisambiguation(html);
       if (options.length > 0) {
@@ -124,14 +139,6 @@ export default function StartForm() {
     const { name, value } = e.target;
     if (name === 'start') dispatch({ type: 'start', start: value });
     else dispatch({ type: 'destination', destination: value });
-  };
-
-  const handleBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    if (value.length < 1) return dispatch({ type: 'status' });
-    dispatch({ type: 'status', loading: true });
-    const { pageid } = await getSummary(value);
-    dispatch({ type: 'status', error: !pageid });
   };
 
   const handleRandomizer = async (e: React.MouseEvent) => {
@@ -162,7 +169,6 @@ export default function StartForm() {
           placeholder="Departure from"
           value={start}
           onChange={handleChange}
-          onBlur={handleBlur}
           className={INPUT}
         />
         <input
@@ -175,7 +181,7 @@ export default function StartForm() {
           className={INPUT}
         />
         <div className="flex justify-around rounded-b-md bg-beige-0">
-          <button type="submit" disabled={error || loading} className={ACTION}>
+          <button type="submit" disabled={loading} className={ACTION}>
             Start
           </button>
           <button type="button" disabled={loading} onClick={handleRandomizer} className={ACTION}>
@@ -184,7 +190,20 @@ export default function StartForm() {
         </div>
       </form>
 
-      {error && <Error title="No such departure :(" />}
+      {notFound && (
+        <Popup id="notfound">
+          <Card className="[&_h2]:font-extrabold [&_h2]:text-blue-0">
+            <h2 className="mb-2 text-center">Article not found</h2>
+            <p className="mb-4 text-center text-blue-2">
+              We couldn’t find a Wikipedia article for your {notFound},
+              “{notFound === 'departure' ? start : destination}”. Check the spelling and try again.
+            </p>
+            <Button color="green" className="w-full uppercase" onClick={hidePopup}>
+              OK
+            </Button>
+          </Card>
+        </Popup>
+      )}
 
       {disambigOptions.length > 0 && (
         <DisambiguationPopup

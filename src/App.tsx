@@ -7,7 +7,7 @@ import HowTo, { HowToOpener } from './components/HowTo';
 
 export default function App() {
   return (
-    <section className="mt-4 bg-inherit px-8 py-4 max-sm:px-2 max-sm:py-8">
+    <section className="mt-4 bg-inherit px-8 py-4 max-sm:px-1 max-sm:py-8">
       <Header />
       <Settings />
       <Routes>
