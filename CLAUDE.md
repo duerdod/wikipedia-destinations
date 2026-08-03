@@ -55,7 +55,7 @@ Function code lives in `functions/` and has its own `functions/tsconfig.json` (W
 ## Gotchas
 
 - Wikipedia `displaytitle` is HTML (`<span>…</span>`). Use the plain `title` field for the heading and crumbs.
-- Step semantics: `START_GAME` resets steps to 0; landing on the departure is step 1; disambiguation landings are NOT counted (`Article.tsx`). `Article` uses a `counted` ref so StrictMode's double-invoked effects don't double-count.
+- Step semantics: `START_GAME` resets steps to 0; landing on the departure (the `articles.start` page) does NOT count, so the counter stays at 0 until the first move away from it; disambiguation landings are NOT counted (`Article.tsx`). `Article` uses a `counted` ref so StrictMode's double-invoked effects don't double-count.
 - Disambiguation: detected via `summary.type` (form) and parse `properties.disambiguation` (edge). The picker is `DisambiguationPopup` (`options` + `onSelect`) — reused by the form (fill + begin) and the article (navigate).
 - wrangler sometimes serves a stale compiled worker. Fix: `rm -rf .wrangler`, kill stray `workerd` on :8788, restart.
 - The `_redirects` SPA rule (`/* /index.html 200`) makes wrangler log a benign "infinite loop" warning; it still serves `index.html` for client routes.

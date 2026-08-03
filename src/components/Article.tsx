@@ -33,7 +33,7 @@ export default function Article() {
     incrementSteps,
     mergeCrumbs,
     setCurrentPageid,
-    gameState: { inDestination },
+    gameState: { inDestination, articles },
   } = useGame();
   const { showPopup, hidePopup } = usePopup();
 
@@ -64,8 +64,11 @@ export default function Article() {
     counted.current = pageid;
     // A disambiguation page is a chooser, not a move — don't count it.
     if (disambiguation) return;
-    incrementSteps();
     if (title) mergeCrumbs(title);
+    // Landing on the start article is the departure, not a move — the counter
+    // stays at 0 until the first real step away from it.
+    if (pageid === articles.start?.pageid) return;
+    incrementSteps();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageid, title, disambiguation]);
 

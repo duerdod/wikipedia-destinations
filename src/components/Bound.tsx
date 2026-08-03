@@ -6,10 +6,7 @@ import { ButtonLink, ButtonRow, Card } from './ui';
 
 /** The winner screen, shown once the current article is the destination. */
 export default function Bound() {
-  const {
-    crumbs,
-    gameState: { articles },
-  } = useGame();
+  const { crumbs } = useGame();
   const { showPopup } = usePopup();
 
   useEffect(() => {
@@ -34,7 +31,6 @@ export default function Bound() {
           {crumbs.map((crumb, i) => (
             <li key={i}>{crumb}</li>
           ))}
-          <li>{articles.destination?.title}</li>
         </ol>
         <ButtonRow>
           <ButtonLink color="green" href="/">
